@@ -13,7 +13,7 @@ import {Observable} from 'rxjs';
 import {isSubmittingSelector} from '../../store/selectors';
 import {AppStateInterface} from '../../../shared/types/appStateInterface';
 import {AuthService} from '../../services/auth.service';
-import {CurrentUserInterface} from '../../../shared/types/currentUser.interface';
+import {RegisterRequestInterface} from '../../types/registerRequest.interface';
 
 @Component({
   selector: 'app-register',
@@ -29,8 +29,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private store: Store<AppStateInterface>,
-    private authServise: AuthService
+    private store: Store<AppStateInterface>
   ) {}
 
   ngOnInit(): void {
@@ -53,11 +52,14 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     console.log(this.formReg.value);
-    this.store.dispatch(registerAction(this.formReg.value));
-    this.authServise
-      .register(this.formReg.value)
-      .subscribe((currentUser: CurrentUserInterface) =>
-        console.log(currentUser)
-      );
+    const requestData: RegisterRequestInterface = {
+      user: this.formReg.value,
+    };
+    this.store.dispatch(registerAction({request: requestData}));
+    // this.authServise
+    //   .register(this.formReg.value)
+    //   .subscribe((currentUser: CurrentUserInterface) =>
+    //     console.log(currentUser)
+    //   );
   }
 }

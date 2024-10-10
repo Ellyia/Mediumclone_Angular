@@ -1,30 +1,38 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {catchError, map, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
+
+import {AuthService} from '../../services/auth.service';
+import {CurrentUserInterface} from '../../../shared/types/currentUser.interface';
 import {
   registerAction,
   registerFailureAction,
   registerSuccessAction,
 } from '../actions/register.action';
-import {catchError, map, of, switchMap} from 'rxjs';
-import {AuthService} from '../../services/auth.service';
-import {CurrentUserInterface} from '../../../shared/types/currentUser.interface';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Injectable()
-export class RegisterEffect {
+export class RegisterEffects {
+  private actions$ = inject(Actions);
+
   register$ = createEffect(() =>
     this.actions$.pipe(
       ofType(registerAction),
       switchMap(({request}) => {
-        // as a result of switchMap must be Observable
         return this.authService.register(request).pipe(
           map((currentUser: CurrentUserInterface) => {
             return registerSuccessAction({currentUser});
           }),
-          catchError(() => of(registerFailureAction()))
+          catchError((errorResponse: HttpErrorResponse) => {
+            return of(
+              registerFailureAction({errors: errorResponse.error.errors})
+            );
+          })
         );
       })
     )
   );
 
-  constructor(private actions$: Actions, private authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 }

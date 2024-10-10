@@ -11,6 +11,7 @@ import {environment} from '../../../environments/environment';
 })
 export class AuthService {
   private readonly httpClient = inject(HttpClient);
+  // constructor(private httpClient: HttpClient) {}
 
   register(data: RegisterRequestInterface): Observable<CurrentUserInterface> {
     const url = environment.apiUrl + '/users';
