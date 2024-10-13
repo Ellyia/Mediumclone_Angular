@@ -6,7 +6,13 @@
         <p class="text-xs-center">
           <a href="['/login']">Have an account?</a>
         </p>
-        Backend Errors
+
+        @if (backendErrors$ | async) {
+        <backend-error-msgs
+          [backendErrors]="backendErrors$ | async"
+        ></backend-error-msgs>
+        }
+
         <form [formGroup]="formReg" (ngSubmit)="onSubmit()">
           <fieldset>
             <fieldset class="form-group">

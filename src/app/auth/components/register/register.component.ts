@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -10,15 +10,20 @@ import {
 import {select, Store} from '@ngrx/store';
 import {registerAction} from '../../store/actions/register.action';
 import {Observable} from 'rxjs';
-import {isSubmittingSelector} from '../../store/selectors';
+import {
+  isSubmittingSelector,
+  validationErrorsSelector,
+} from '../../store/selectors';
 import {AppStateInterface} from '../../../shared/types/appStateInterface';
 import {AuthService} from '../../services/auth.service';
 import {RegisterRequestInterface} from '../../types/registerRequest.interface';
+import {BackendErrorsInterface} from '../../../shared/types/backendErrors.interface';
+import {BackendErrorMsgsComponent} from '../../../shared/components/backend-error-msgs/backend-error-msgs.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, BackendErrorMsgsComponent],
   providers: [AuthService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -26,10 +31,11 @@ import {RegisterRequestInterface} from '../../types/registerRequest.interface';
 export class RegisterComponent implements OnInit {
   formReg!: FormGroup;
   isSubmitting$!: Observable<boolean>;
+  backendErrors$!: Observable<BackendErrorsInterface | null>;
 
   constructor(
     private fb: FormBuilder,
-    private store: Store<AppStateInterface>
+    @Inject(Store) private store: Store<AppStateInterface>
   ) {}
 
   ngOnInit(): void {
@@ -39,6 +45,7 @@ export class RegisterComponent implements OnInit {
 
   initializeValues(): void {
     this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector));
+    this.backendErrors$ = this.store.pipe(select(validationErrorsSelector));
   }
 
   initializeForm(): void {
@@ -56,10 +63,5 @@ export class RegisterComponent implements OnInit {
       user: this.formReg.value,
     };
     this.store.dispatch(registerAction({request: requestData}));
-    // this.authServise
-    //   .register(this.formReg.value)
-    //   .subscribe((currentUser: CurrentUserInterface) =>
-    //     console.log(currentUser)
-    //   );
   }
 }
