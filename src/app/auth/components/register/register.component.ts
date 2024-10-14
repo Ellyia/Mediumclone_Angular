@@ -8,14 +8,14 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import {select, Store} from '@ngrx/store';
-import {registerAction} from '../../store/actions/register.action';
 import {Observable} from 'rxjs';
+
+import {registerAction} from '../../store/actions/register.action';
 import {
   isSubmittingSelector,
   validationErrorsSelector,
 } from '../../store/selectors';
 import {AppStateInterface} from '../../../shared/types/appStateInterface';
-import {AuthService} from '../../services/auth.service';
 import {RegisterRequestInterface} from '../../types/registerRequest.interface';
 import {BackendErrorsInterface} from '../../../shared/types/backendErrors.interface';
 import {BackendErrorMsgsComponent} from '../../../shared/components/backend-error-msgs/backend-error-msgs.component';
@@ -24,12 +24,13 @@ import {BackendErrorMsgsComponent} from '../../../shared/components/backend-erro
   selector: 'app-register',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, BackendErrorMsgsComponent],
-  providers: [AuthService],
+  providers: [],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent implements OnInit {
   formReg!: FormGroup;
+
   isSubmitting$!: Observable<boolean>;
   backendErrors$!: Observable<BackendErrorsInterface | null>;
 
