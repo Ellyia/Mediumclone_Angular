@@ -12,6 +12,7 @@ import {RegisterEffects} from './auth/store/effects/register.effects';
 import {LoginEffects} from './auth/store/effects/login.effects';
 import {GetCurrentUserEffects} from './auth/store/effects/get-current-user.effect';
 import {authInterceptor} from './shared/interceptors/auth.interceptor';
+import {GetFeedEffects} from './shared/components/feed/store/effects/get-feed.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +20,12 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])), // withInterceptors([]) - if I will need interceptors / if not - provideHttpClient() // instead of: importProvidersFrom(HttpClientModule) - deprecated,
     provideStore(appReducers), // {appState: authReducer} if 1 reducer and I don't have appReducer
-    provideEffects([RegisterEffects, LoginEffects, GetCurrentUserEffects]),
+    provideEffects([
+      RegisterEffects,
+      LoginEffects,
+      GetCurrentUserEffects,
+      GetFeedEffects,
+    ]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // !isDevMode(),
