@@ -5,4 +5,5 @@ export const initialAuthState: AuthStateInterface = {
   currentUser: null,
   isLoggedIn: null,
   validationErrors: null,
+  isLoading: false,
 };
