@@ -1,1 +1,33 @@
 <p>Wow, feed works!</p>
+
+@if (isLoading$ | async) {
+<loading></loading>
+} @if (error$ | async) {
+<error-message></error-message>
+} @if (feed$ | async) {
+<div class="article-preview" *ngFor="let article of (feed$ | async)?.articles">
+  <div class="article-meta">
+    <a [routerLink]="['/profiles', article.author.username]">
+      <img [src]="article.author.image" alt="authorImg" />
+    </a>
+    <div class="info">
+      <a [routerLink]="['/profiles', article.author.username]">
+        {{ article.author.username }}
+      </a>
+      <span class="data">{{ article.createdAt }}</span>
+    </div>
+    <div class="pull-xs-right">ADD to Favorites</div>
+  </div>
+  <a [routerLink]="['/articles', article.slug]" class="preview-link">
+    <h1>{{ article.title }}</h1>
+    <p>{{ article.description }}</p>
+    <div>HERE is list of Tags</div>
+  </a>
+</div>
+<pagination
+  [articlesCount]="(feed$ | async)?.articlesCount || 0"
+  [limit]="limitOfArticles"
+  [url]="baseUrl"
+  [currentPage]="currentPage"
+></pagination>
+}

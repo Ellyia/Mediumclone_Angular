@@ -4,7 +4,6 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import {Observable} from 'rxjs/internal/Observable';
 import {select, Store} from '@ngrx/store';
@@ -29,7 +28,6 @@ import {loginAction} from '../../store/actions/login.action';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  // pox0@gmail.com / WeArePox0
   formLog!: FormGroup;
 
   isSubmitting$!: Observable<boolean>;
