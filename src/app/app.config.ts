@@ -4,6 +4,7 @@ import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {provideStoreDevtools} from '@ngrx/store-devtools';
 import {provideStore} from '@ngrx/store';
 import {provideEffects} from '@ngrx/effects';
+import {provideRouterStore} from '@ngrx/router-store';
 
 import {routes} from './app.routes';
 import {environment} from '../environments/environment';
@@ -19,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])), // withInterceptors([]) - if I will need interceptors / if not - provideHttpClient() // instead of: importProvidersFrom(HttpClientModule) - deprecated,
-    provideStore(appReducers), // {appState: authReducer} if 1 reducer and I don't have appReducer
+    provideStore(appReducers), // {appState: authReducer} if 1 reducer and if I don't have appReducer
     provideEffects([
       RegisterEffects,
       LoginEffects,
@@ -30,5 +31,6 @@ export const appConfig: ApplicationConfig = {
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // !isDevMode(),
     }),
+    provideRouterStore(),
   ],
 };

@@ -28,6 +28,6 @@
   [articlesCount]="(feed$ | async)?.articlesCount || 0"
   [limit]="limitOfArticles"
   [url]="baseUrl"
-  [currentPage]="currentPage"
+  [currentPage]="currentParamsPage"
 ></pagination>
 }
