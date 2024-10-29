@@ -7,32 +7,30 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 import {AuthService} from '../../services/auth.service';
 import {CurrentUserInterface} from '../../../shared/types/currentUser.interface';
-import {
-  registerAction,
-  registerFailureAction,
-  registerSuccessAction,
-} from '../actions/register.action';
 import {PersistanceServise} from '../../../shared/services/persistance.service';
+import {
+  loginAction,
+  loginFailureAction,
+  loginSuccessAction,
+} from '../actions/login.action';
 
 @Injectable()
-export class RegisterEffects {
+export class LoginEffects {
   private actions$ = inject(Actions);
   private presistanceServise = inject(PersistanceServise);
 
-  register$ = createEffect(() =>
+  login$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(registerAction),
+      ofType(loginAction),
       switchMap(({request}) => {
-        return this.authService.register(request).pipe(
+        return this.authService.login(request).pipe(
           map((currentUser: CurrentUserInterface) => {
             this.presistanceServise.set('accessToken', currentUser.token);
 
-            return registerSuccessAction({currentUser});
+            return loginSuccessAction({currentUser});
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            return of(
-              registerFailureAction({errors: errorResponse.error.errors})
-            );
+            return of(loginFailureAction({errors: errorResponse.error.errors}));
           })
         );
       })
@@ -42,7 +40,7 @@ export class RegisterEffects {
   redirectAfterSubmit$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(registerSuccessAction),
+        ofType(loginSuccessAction),
         tap(() => this.router.navigateByUrl('/'))
       ),
     {dispatch: false}
