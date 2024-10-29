@@ -1,5 +1,3 @@
-<p>Wow, feed works!</p>
-
 @if (isLoading$ | async) {
 <loading></loading>
 } @if (error$ | async) {
@@ -21,7 +19,7 @@
   <a [routerLink]="['/articles', article.slug]" class="preview-link">
     <h1>{{ article.title }}</h1>
     <p>{{ article.description }}</p>
-    <div>HERE is list of Tags</div>
+    <tag-list></tag-list>
   </a>
 </div>
 <pagination

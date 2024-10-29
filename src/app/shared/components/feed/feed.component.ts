@@ -17,6 +17,7 @@ import {ErrorMessageComponent} from '../error-messages/error-message.component';
 import {LoadingComponent} from '../loadind/loading.component';
 import {environment} from '../../../../environments/environment';
 import {PaginationComponent} from '../pagination/pagination.component';
+import {TagListComponent} from '../tag-list/tag-list.component';
 
 @Component({
   selector: 'feed',
@@ -27,6 +28,7 @@ import {PaginationComponent} from '../pagination/pagination.component';
     ErrorMessageComponent,
     LoadingComponent,
     PaginationComponent,
+    TagListComponent,
   ],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.scss',
