@@ -1,0 +1,27 @@
+<div class="feed-toggle">
+  <ul class="nav outline-active nav-pills">
+    @if (isLoggedIn$ | async) {
+    <li class="nav-item">
+      <a [routerLink]="['/feed']" class="nav-link" routerLinkActive="active">
+        Your feed
+      </a>
+    </li>
+    } @if (isLoggedIn$ | async) {
+    <li class="nav-item">
+      <a [routerLink]="['/']" class="nav-link" routerLinkActive="active">
+        Feed
+      </a>
+    </li>
+    } @if (tagNameProps) {
+    <li class="nav-item">
+      <a
+        [routerLink]="['/tags', tagNameProps]"
+        class="nav-link"
+        routerLinkActive="active"
+      >
+        {{ tagNameProps }}
+      </a>
+    </li>
+    }
+  </ul>
+</div>
