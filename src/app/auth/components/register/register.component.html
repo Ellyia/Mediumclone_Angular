@@ -1,0 +1,63 @@
+<div class="auth-page">
+  <div class="container page">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 col-xs-12">
+        <h1 class="text-xs-center">Sign Up</h1>
+        <p class="text-xs-center">
+          <a href="['/login']">Have an account?</a>
+        </p>
+
+        @if (backendErrors$ | async) {
+        <backend-error-msgs
+          [backendErrors]="backendErrors$ | async"
+        ></backend-error-msgs>
+        }
+
+        <form [formGroup]="formReg" (ngSubmit)="onSubmit()">
+          <fieldset>
+            <fieldset class="form-group">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                placeholder="Username"
+                formControlName="username"
+                name="username"
+                autocomplete="given-name"
+              />
+            </fieldset>
+
+            <fieldset class="form-group">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                placeholder="Email"
+                formControlName="email"
+                name="email"
+                autocomplete="on"
+              />
+            </fieldset>
+
+            <fieldset class="form-group">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                placeholder="Password"
+                formControlName="password"
+                name="password"
+                autocomplete="off"
+              />
+            </fieldset>
+
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+              type="submit"
+              [disabled]="isSubmitting$ | async"
+            >
+              Sign Up
+            </button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
