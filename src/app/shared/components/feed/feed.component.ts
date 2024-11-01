@@ -1,4 +1,12 @@
-import {Component, inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Params, Router, RouterModule} from '@angular/router';
 import {Store} from '@ngrx/store';
@@ -17,6 +25,7 @@ import {ErrorMessageComponent} from '../error-messages/error-message.component';
 import {LoadingComponent} from '../loadind/loading.component';
 import {environment} from '../../../../environments/environment';
 import {PaginationComponent} from '../pagination/pagination.component';
+import {TagListComponent} from '../tag-list/tag-list.component';
 
 @Component({
   selector: 'feed',
@@ -27,11 +36,12 @@ import {PaginationComponent} from '../pagination/pagination.component';
     ErrorMessageComponent,
     LoadingComponent,
     PaginationComponent,
+    TagListComponent,
   ],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.scss',
 })
-export class FeedComponent implements OnInit, OnDestroy {
+export class FeedComponent implements OnInit, OnDestroy, OnChanges {
   @Input('apiUrl') apiUrlProps!: string;
   private readonly store = inject(Store<AppStateInterface>);
   private readonly router = inject(Router);
@@ -47,9 +57,17 @@ export class FeedComponent implements OnInit, OnDestroy {
   queryParamsSubscription!: Subscription;
 
   ngOnInit(): void {
-    // this.fetchFeed();
     this.initialiseValue();
     this.initializeListeners();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const isApiUrlChanged =
+      !changes['apiUrlProps'].firstChange &&
+      changes['apiUrlProps'].currentValue !==
+        changes['apiUrlProps'].previousValue;
+
+    if (isApiUrlChanged) this.fetchFeed(); // without this angular won't upload info for new tag
   }
 
   initializeListeners(): void {
@@ -72,8 +90,6 @@ export class FeedComponent implements OnInit, OnDestroy {
       ...parsedUrl.query,
     });
     const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`;
-
-    console.log(apiUrlWithParams);
 
     // this.store.dispatch(getFeedAction({url: this.apiUrlProps}));
     this.store.dispatch(getFeedAction({url: apiUrlWithParams}));

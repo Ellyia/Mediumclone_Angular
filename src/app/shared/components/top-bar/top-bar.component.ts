@@ -1,15 +1,16 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {Observable} from 'rxjs';
+import {CommonModule} from '@angular/common';
+import {Store} from '@ngrx/store';
+
 import {CurrentUserInterface} from '../../types/currentUser.interface';
 import {AppStateInterface} from '../../types/appStateInterface';
-import {Store} from '@ngrx/store';
 import {
   currentUserSelector,
   isAnonymousSelector,
   isLoggedInSelector,
 } from '../../../auth/store/selectors';
-import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'top-bar',
