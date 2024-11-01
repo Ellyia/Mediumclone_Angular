@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -27,7 +27,7 @@ import {loginAction} from '../../store/actions/login.action';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   formLog!: FormGroup;
 
   isSubmitting$!: Observable<boolean>;
@@ -52,12 +52,10 @@ export class LoginComponent {
     this.formLog = this.fb.group({
       email: new FormControl<string | null>(''),
       password: new FormControl<string | null>(''),
-    });
-    console.log(this.formLog.valid);
+    }); // this.formLog.valid
   }
 
   onSubmit(): void {
-    console.log(this.formLog.value);
     const requestData: LoginRequestInterface = {
       user: this.formLog.value,
     };

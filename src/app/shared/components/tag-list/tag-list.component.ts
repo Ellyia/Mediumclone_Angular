@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {PopularTagType} from '../../types/popularTag.type';
 import {NgFor} from '@angular/common';
+
+import {PopularTagType} from '../../types/popularTag.type';
 
 @Component({
   selector: 'tag-list',

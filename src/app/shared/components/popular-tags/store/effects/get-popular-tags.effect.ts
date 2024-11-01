@@ -10,7 +10,6 @@ import {
   getPopularTagsFailureAction,
   getPopularTagsSuccessAction,
 } from '../actions/get-popular-tags.action';
-import {GetPopularTagsResponseInterface} from '../../types/get-popular-tags-response.interface';
 import {PopularTagType} from '../../../../types/popularTag.type';
 
 @Injectable()
@@ -24,8 +23,6 @@ export class GetPopularTagsEffects {
       switchMap(({url}) => {
         return this.tagsService.getPopularTags(url).pipe(
           map((popularTags: PopularTagType[]) => {
-            console.log(popularTags);
-
             return getPopularTagsSuccessAction({popularTags});
           }),
           catchError((errorResponse: HttpErrorResponse) => {

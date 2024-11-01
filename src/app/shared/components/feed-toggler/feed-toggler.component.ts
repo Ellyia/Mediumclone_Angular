@@ -2,10 +2,10 @@ import {Component, inject, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
 import {Store} from '@ngrx/store';
+import {RouterModule} from '@angular/router';
 
 import {AppStateInterface} from '../../types/appState.interface';
 import {isLoggedInSelector} from '../../../auth/store/selectors';
-import {RouterModule} from '@angular/router';
 
 @Component({
   selector: 'feed-toggler',

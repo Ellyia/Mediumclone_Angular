@@ -1,8 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+
 import {GetFeedResponseInterface} from '../types/get-feed-response.interface';
 import {environment} from '../../../../../environments/environment';
-import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',

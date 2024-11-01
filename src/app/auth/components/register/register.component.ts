@@ -55,11 +55,9 @@ export class RegisterComponent implements OnInit {
       email: new FormControl<string | null>('', Validators.required),
       password: new FormControl<string | null>('', Validators.required),
     });
-    console.log(this.formReg.valid);
   }
 
   onSubmit(): void {
-    console.log(this.formReg.value);
     const requestData: RegisterRequestInterface = {
       user: this.formReg.value,
     };

@@ -53,7 +53,6 @@ export class PopularTagsComponent implements OnInit, OnDestroy {
   }
 
   initialiseValue(): void {
-    console.log('dispatched');
     this.isLoading$ = this.store.select(isLoadingPopularTagsSelector);
     this.error$ = this.store.select(errorPopularTagsSelector);
     this.popularTags$ = this.store.select(popularTagsDataSelector);

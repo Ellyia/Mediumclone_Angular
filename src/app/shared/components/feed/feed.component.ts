@@ -2,6 +2,7 @@ import {
   Component,
   inject,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   SimpleChanges,
@@ -40,7 +41,7 @@ import {TagListComponent} from '../tag-list/tag-list.component';
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.scss',
 })
-export class FeedComponent implements OnInit, OnDestroy {
+export class FeedComponent implements OnInit, OnDestroy, OnChanges {
   @Input('apiUrl') apiUrlProps!: string;
   private readonly store = inject(Store<AppStateInterface>);
   private readonly router = inject(Router);
@@ -56,20 +57,15 @@ export class FeedComponent implements OnInit, OnDestroy {
   queryParamsSubscription!: Subscription;
 
   ngOnInit(): void {
-    // this.fetchFeed();
     this.initialiseValue();
     this.initializeListeners();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes', changes);
-
     const isApiUrlChanged =
       !changes['apiUrlProps'].firstChange &&
       changes['apiUrlProps'].currentValue !==
         changes['apiUrlProps'].previousValue;
-
-    console.log('isApiUrlChanged', isApiUrlChanged);
 
     if (isApiUrlChanged) this.fetchFeed(); // without this angular won't upload info for new tag
   }
@@ -94,8 +90,6 @@ export class FeedComponent implements OnInit, OnDestroy {
       ...parsedUrl.query,
     });
     const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`;
-
-    console.log(apiUrlWithParams);
 
     // this.store.dispatch(getFeedAction({url: this.apiUrlProps}));
     this.store.dispatch(getFeedAction({url: apiUrlWithParams}));
