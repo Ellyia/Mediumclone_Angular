@@ -1,4 +1,11 @@
-import {Component, inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Params, Router, RouterModule} from '@angular/router';
 import {Store} from '@ngrx/store';
@@ -52,6 +59,19 @@ export class FeedComponent implements OnInit, OnDestroy {
     // this.fetchFeed();
     this.initialiseValue();
     this.initializeListeners();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes', changes);
+
+    const isApiUrlChanged =
+      !changes['apiUrlProps'].firstChange &&
+      changes['apiUrlProps'].currentValue !==
+        changes['apiUrlProps'].previousValue;
+
+    console.log('isApiUrlChanged', isApiUrlChanged);
+
+    if (isApiUrlChanged) this.fetchFeed(); // without this angular won't upload info for new tag
   }
 
   initializeListeners(): void {
