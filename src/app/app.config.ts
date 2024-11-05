@@ -16,6 +16,7 @@ import {authInterceptor} from './shared/interceptors/auth.interceptor';
 import {GetFeedEffects} from './shared/components/feed/store/effects/get-feed.effect';
 import {GetPopularTagsEffects} from './shared/components/popular-tags/store/effects/get-popular-tags.effect';
 import {GetArticleEffects} from './article/store/effects/get-article.effect';
+import {DeleteArticleEffects} from './article/store/effects/delete-article.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,6 +31,7 @@ export const appConfig: ApplicationConfig = {
       GetFeedEffects,
       GetPopularTagsEffects,
       GetArticleEffects,
+      DeleteArticleEffects,
     ]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
