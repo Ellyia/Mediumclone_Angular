@@ -1,6 +1,6 @@
 import {createSelector} from '@ngrx/store';
 
-import {AppStateInterface} from '../../../types/appStateInterface';
+import {AppStateInterface} from '../../../types/appState.interface';
 import {FeedStateInterface} from '../types/feedState.interface';
 
 const selectFeed = (state: AppStateInterface): FeedStateInterface => state.feed;

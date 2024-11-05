@@ -15,7 +15,7 @@ import {
   isSubmittingSelector,
   validationErrorsSelector,
 } from '../../store/selectors';
-import {AppStateInterface} from '../../../shared/types/appStateInterface';
+import {AppStateInterface} from '../../../shared/types/appState.interface';
 import {RegisterRequestInterface} from '../../types/registerRequest.interface';
 import {BackendErrorsInterface} from '../../../shared/types/backendErrors.interface';
 import {BackendErrorMsgsComponent} from '../../../shared/components/backend-error-msgs/backend-error-msgs.component';

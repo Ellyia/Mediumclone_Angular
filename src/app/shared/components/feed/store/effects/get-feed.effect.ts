@@ -10,7 +10,7 @@ import {
   getFeedSuccessAction,
 } from '../actions/get-feed.action';
 import {FeedService} from '../../services/feed.service';
-import {GetFeedResponseInterface} from '../../types/get-feed-response.interface';
+import {GetFeedResponseInterface} from '../../types/getFeedResponse.interface';
 
 @Injectable()
 export class GetFeedEffects {
