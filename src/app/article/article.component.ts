@@ -17,6 +17,7 @@ import {
 import {ArticleInterface} from '../shared/types/article.interfase';
 import {currentUserSelector} from '../auth/store/selectors';
 import {CurrentUserInterface} from '../shared/types/currentUser.interface';
+import {deleteArticleAction} from './store/actions/delete-article.action';
 
 @Component({
   selector: 'article',
@@ -71,5 +72,9 @@ export class ArticleComponent implements OnInit {
         }
       )
     );
+  }
+
+  deleteArticle(): void {
+    this.store.dispatch(deleteArticleAction({slug: this.slug}));
   }
 }
