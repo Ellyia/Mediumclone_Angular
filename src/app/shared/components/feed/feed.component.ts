@@ -13,14 +13,14 @@ import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 import queryString from 'query-string';
 
-import {AppStateInterface} from '../../types/appStateInterface';
+import {AppStateInterface} from '../../types/appState.interface';
 import {getFeedAction} from './store/actions/get-feed.action';
 import {
   errorFeedSelector,
   feedDataSelector,
   isLoadingFeedSelector,
 } from './store/selectors';
-import {GetFeedResponseInterface} from './types/get-feed-response.interface';
+import {GetFeedResponseInterface} from './types/getFeedResponse.interface';
 import {ErrorMessageComponent} from '../error-messages/error-message.component';
 import {LoadingComponent} from '../loadind/loading.component';
 import {environment} from '../../../../environments/environment';

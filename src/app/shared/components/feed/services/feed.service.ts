@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 
-import {GetFeedResponseInterface} from '../types/get-feed-response.interface';
+import {GetFeedResponseInterface} from '../types/getFeedResponse.interface';
 import {environment} from '../../../../../environments/environment';
 
 @Injectable({

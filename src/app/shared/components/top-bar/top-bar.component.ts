@@ -5,7 +5,7 @@ import {CommonModule} from '@angular/common';
 import {Store} from '@ngrx/store';
 
 import {CurrentUserInterface} from '../../types/currentUser.interface';
-import {AppStateInterface} from '../../types/appStateInterface';
+import {AppStateInterface} from '../../types/appState.interface';
 import {
   currentUserSelector,
   isAnonymousSelector,
