@@ -1,2 +1,5 @@
-<p>create-article works!</p>
-<article-form></article-form>
+<article-form
+  [initialValues]="initialValues"
+  [isSubmitting]="false"
+  (articleSubmit)="onSubmit($event)"
+></article-form>

@@ -1,1 +1,70 @@
-<p>article form works!</p>
+<div class="editor-page">
+  <div class="container page">
+    <div class="row">
+      <div class="col-md-10 offset-md-1 col-xs-12">
+        @if (backendErrorsProps) {
+        <backend-error-msgs
+          [backendErrors]="backendErrorsProps"
+        ></backend-error-msgs>
+        }
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <fieldset>
+            <fieldset class="form-group">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                placeholder="Article title"
+                formControlName="title"
+                name="title"
+              />
+            </fieldset>
+
+            <fieldset class="form-group">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                placeholder="What is this article about?"
+                formControlName="description"
+                name="description"
+                autocomplete="on"
+              />
+            </fieldset>
+
+            <fieldset class="form-group">
+              <textarea
+                rows="8"
+                class="form-control form-control-lg"
+                placeholder="Write your article (in markdown)"
+                formControlName="body"
+                name="body"
+                autocomplete="off"
+              >
+              </textarea>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                placeholder="Enter tags"
+                formControlName="tagList"
+                name="tagList"
+                autocomplete="on"
+              />
+            </fieldset>
+
+            <fieldset>
+              <button
+                class="btn btn-lg btn-primary pull-xs-right"
+                type="submit"
+                [disabled]="form.invalid || isSubmittingProps"
+              >
+                Publish article
+              </button>
+            </fieldset>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
