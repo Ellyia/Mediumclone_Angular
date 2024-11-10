@@ -6,6 +6,7 @@ import {authReducer} from './auth.reducers';
 import {feedReducer} from '../../../shared/components/feed/store/reducers/feed.reducer';
 import {popularTagsReducer} from '../../../shared/components/popular-tags/store/reducers/popular-tags.reducer';
 import {articleReducer} from '../../../article/store/reducers/article.reducer';
+import {createArticleReducer} from '../../../create-article/store/reducers/create-article.reducer';
 
 export const appReducers: ActionReducerMap<AppStateInterface, any> = {
   auth: authReducer,
@@ -13,4 +14,5 @@ export const appReducers: ActionReducerMap<AppStateInterface, any> = {
   router: routerReducer,
   popularTags: popularTagsReducer,
   article: articleReducer,
+  createArticle: createArticleReducer,
 };

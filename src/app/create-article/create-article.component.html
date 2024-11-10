@@ -1,5 +1,6 @@
 <article-form
   [initialValues]="initialValues"
-  [isSubmitting]="false"
+  [isSubmitting]="isSubmitting$ | async"
+  [errors]="validationErrors$ | async"
   (articleSubmit)="onSubmit($event)"
 ></article-form>

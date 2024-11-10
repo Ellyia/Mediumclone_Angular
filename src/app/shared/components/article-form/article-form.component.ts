@@ -9,7 +9,13 @@ import {
 
 import {ArticleInputInterface} from '../../types/articleInput.interface';
 import {BackendErrorsInterface} from '../../types/backendErrors.interface';
-import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import {BackendErrorMsgsComponent} from '../backend-error-msgs/backend-error-msgs.component';
 
 @Component({
@@ -21,7 +27,7 @@ import {BackendErrorMsgsComponent} from '../backend-error-msgs/backend-error-msg
 })
 export class ArticleFormComponent implements OnInit {
   @Input('initialValues') initialValuesProps!: ArticleInputInterface;
-  @Input('isSubmitting') isSubmittingProps!: boolean;
+  @Input('isSubmitting') isSubmittingProps!: boolean | null;
   @Input('errors') backendErrorsProps!: BackendErrorsInterface | null;
 
   @Output('articleSubmit') articleSubmitEvent =
@@ -37,14 +43,33 @@ export class ArticleFormComponent implements OnInit {
 
   initializeForm(): void {
     this.form = this.fb.group({
-      title: this.initialValuesProps.title,
-      description: this.initialValuesProps.description,
-      body: this.initialValuesProps.body,
-      tagList: this.initialValuesProps.tagList.join(' '),
+      title: new FormControl<string | null>(
+        this.initialValuesProps.title || '',
+        Validators.required
+      ),
+      description: new FormControl<string | null>(
+        this.initialValuesProps.description || '',
+        Validators.required
+      ),
+      body: new FormControl<string | null>(
+        this.initialValuesProps.body || '',
+        Validators.required
+      ),
+      tagList: new FormControl<string[]>(this.initialValuesProps.tagList),
+      // tagList: this.initialValuesProps.tagList.join(' '),
     });
+    console.log(this.form.value.tagList);
   }
 
   onSubmit(): void {
-    this.articleSubmitEvent.emit(this.form.value);
+    this.articleSubmitEvent.emit({
+      title: this.form.value.title,
+      description: this.form.value.description,
+      body: this.form.value.body,
+      tagList:
+        this.form.value.tagList.length > 0
+          ? [...this.form.value.tagList.replace(/,/g, '').split(' ')]
+          : [],
+    });
   }
 }

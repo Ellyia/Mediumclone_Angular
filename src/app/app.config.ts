@@ -17,6 +17,7 @@ import {GetFeedEffects} from './shared/components/feed/store/effects/get-feed.ef
 import {GetPopularTagsEffects} from './shared/components/popular-tags/store/effects/get-popular-tags.effect';
 import {GetArticleEffects} from './article/store/effects/get-article.effect';
 import {DeleteArticleEffects} from './article/store/effects/delete-article.effect';
+import {CreateArticleEffects} from './create-article/store/effects/create-article.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,6 +33,7 @@ export const appConfig: ApplicationConfig = {
       GetPopularTagsEffects,
       GetArticleEffects,
       DeleteArticleEffects,
+      CreateArticleEffects,
     ]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
