@@ -7,6 +7,7 @@ import {feedReducer} from '../../../shared/components/feed/store/reducers/feed.r
 import {popularTagsReducer} from '../../../shared/components/popular-tags/store/reducers/popular-tags.reducer';
 import {articleReducer} from '../../../article/store/reducers/article.reducer';
 import {createArticleReducer} from '../../../create-article/store/reducers/create-article.reducer';
+import {editArticleReducer} from '../../../edit-article/store/reducers/edit-article.reducer';
 
 export const appReducers: ActionReducerMap<AppStateInterface, any> = {
   auth: authReducer,
@@ -15,4 +16,5 @@ export const appReducers: ActionReducerMap<AppStateInterface, any> = {
   popularTags: popularTagsReducer,
   article: articleReducer,
   createArticle: createArticleReducer,
+  editArticle: editArticleReducer,
 };

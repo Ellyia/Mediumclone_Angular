@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 
 import {AppStateInterface} from '../shared/types/appState.interface';
 import {createArticleAction} from './store/actions/create-article.action';
@@ -16,7 +16,7 @@ import {
 @Component({
   selector: 'create-article',
   standalone: true,
-  imports: [ArticleFormComponent, AsyncPipe],
+  imports: [ArticleFormComponent, AsyncPipe, NgIf],
   templateUrl: './create-article.component.html',
   styleUrl: './create-article.component.scss',
 })
@@ -30,7 +30,7 @@ export class CreateArticleComponent {
     tagList: [],
   };
 
-  isSubmitting$!: Observable<boolean>;
+  isSubmitting$!: Observable<boolean | null>;
   validationErrors$!: Observable<BackendErrorsInterface | null>;
 
   ngOnInit(): void {
@@ -39,7 +39,7 @@ export class CreateArticleComponent {
   }
 
   onSubmit($event: ArticleInputInterface): void {
-    console.log($event);
+    // console.log($event);
     this.store.dispatch(createArticleAction({articleInput: $event}));
   }
 }

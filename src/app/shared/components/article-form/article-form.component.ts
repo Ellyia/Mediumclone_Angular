@@ -43,22 +43,22 @@ export class ArticleFormComponent implements OnInit {
 
   initializeForm(): void {
     this.form = this.fb.group({
-      title: new FormControl<string | null>(
-        this.initialValuesProps.title || '',
+      title: new FormControl<string>(
+        this.initialValuesProps.title,
         Validators.required
       ),
-      description: new FormControl<string | null>(
-        this.initialValuesProps.description || '',
+      description: new FormControl<string>(
+        this.initialValuesProps.description,
         Validators.required
       ),
-      body: new FormControl<string | null>(
-        this.initialValuesProps.body || '',
+      body: new FormControl<string>(
+        this.initialValuesProps.body,
         Validators.required
       ),
       tagList: new FormControl<string[]>(this.initialValuesProps.tagList),
       // tagList: this.initialValuesProps.tagList.join(' '),
     });
-    console.log(this.form.value.tagList);
+    // console.log(this.form.value.tagList);
   }
 
   onSubmit(): void {
