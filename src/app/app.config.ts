@@ -8,7 +8,6 @@ import {provideRouterStore} from '@ngrx/router-store';
 
 import {routes} from './app.routes';
 import {environment} from '../environments/environment';
-import {appReducers} from './auth/store/reducers/app.reducers';
 import {RegisterEffects} from './auth/store/effects/register.effects';
 import {LoginEffects} from './auth/store/effects/login.effects';
 import {GetCurrentUserEffects} from './auth/store/effects/get-current-user.effect';
@@ -20,6 +19,7 @@ import {DeleteArticleEffects} from './article/store/effects/delete-article.effec
 import {CreateArticleEffects} from './create-article/store/effects/create-article.effect';
 import {UpdateArticleEffects} from './edit-article/store/effects/get-article.effect';
 import {EditArticleEffects} from './edit-article/store/effects/edit-article.effect';
+import {appReducers} from './store/reducers/app.reducers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
