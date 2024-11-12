@@ -55,10 +55,10 @@ export class ArticleFormComponent implements OnInit {
         this.initialValuesProps.body,
         Validators.required
       ),
-      tagList: new FormControl<string[]>(this.initialValuesProps.tagList),
-      // tagList: this.initialValuesProps.tagList.join(' '),
+      tagList: new FormControl<string[] | string>(
+        this.initialValuesProps.tagList.join(' ')
+      ),
     });
-    // console.log(this.form.value.tagList);
   }
 
   onSubmit(): void {

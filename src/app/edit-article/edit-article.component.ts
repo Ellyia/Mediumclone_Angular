@@ -52,7 +52,6 @@ export class EditArticleComponent {
       select(articleSelector),
       filter(Boolean), // can be null, but... I will wait for result with filter, when res will be not null/undefined
       map((article: ArticleInterface) => {
-        console.log(article.tagList);
         return {
           title: article.title,
           description: article.description,
@@ -68,7 +67,6 @@ export class EditArticleComponent {
   }
 
   onSubmit($event: ArticleInputInterface): void {
-    console.log($event);
     this.store.dispatch(
       updateArticleAction({slug: this.slug, articleInput: $event})
     );

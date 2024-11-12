@@ -39,7 +39,6 @@ export class CreateArticleComponent {
   }
 
   onSubmit($event: ArticleInputInterface): void {
-    // console.log($event);
     this.store.dispatch(createArticleAction({articleInput: $event}));
   }
 }

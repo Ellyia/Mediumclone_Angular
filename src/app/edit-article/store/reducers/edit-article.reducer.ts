@@ -28,6 +28,7 @@ export const editArticleReducer = createReducer(
     (state): EditArticleStateInterface => ({
       ...state,
       isSubmitting: false,
+      article: null,
     })
   ),
   on(
@@ -36,6 +37,7 @@ export const editArticleReducer = createReducer(
       ...state,
       isSubmitting: false,
       validationErrors: errors,
+      article: null,
     })
   ),
   //

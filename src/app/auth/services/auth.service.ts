@@ -13,7 +13,6 @@ import {LoginRequestInterface} from '../types/loginRequest.interface';
 })
 export class AuthService {
   private readonly httpClient = inject(HttpClient);
-  // constructor(private httpClient: HttpClient) {}
 
   getUser(response: AuthResponseInterface): CurrentUserInterface {
     return response.user;
