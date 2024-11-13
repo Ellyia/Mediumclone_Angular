@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 
 import {AppStateInterface} from '../shared/types/appState.interface';
 import {createArticleAction} from './store/actions/create-article.action';
@@ -16,7 +16,7 @@ import {
 @Component({
   selector: 'create-article',
   standalone: true,
-  imports: [ArticleFormComponent, AsyncPipe, NgIf],
+  imports: [ArticleFormComponent, AsyncPipe],
   templateUrl: './create-article.component.html',
   styleUrl: './create-article.component.scss',
 })

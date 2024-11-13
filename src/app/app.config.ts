@@ -20,6 +20,7 @@ import {CreateArticleEffects} from './create-article/store/effects/create-articl
 import {UpdateArticleEffects} from './edit-article/store/effects/get-article.effect';
 import {EditArticleEffects} from './edit-article/store/effects/edit-article.effect';
 import {appReducers} from './store/reducers/app.reducers';
+import {UpdateCurrentUserEffects} from './auth/store/effects/update-current-user.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -38,6 +39,7 @@ export const appConfig: ApplicationConfig = {
       CreateArticleEffects,
       UpdateArticleEffects,
       EditArticleEffects,
+      UpdateCurrentUserEffects,
     ]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states

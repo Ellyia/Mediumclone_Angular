@@ -8,6 +8,7 @@ import {TagFeedComponent} from './tag-feed/components/tag-feed/tag-feed.componen
 import {ArticleComponent} from './article/article.component';
 import {CreateArticleComponent} from './create-article/create-article.component';
 import {EditArticleComponent} from './edit-article/edit-article.component';
+import {SettingsComponent} from './settings/components/settings/settings.component';
 
 export const routes: Routes = [
   {path: '', component: GlobalFeedComponent},
@@ -18,4 +19,5 @@ export const routes: Routes = [
   {path: 'articles/new', component: CreateArticleComponent},
   {path: 'articles/:slug/edit', component: EditArticleComponent},
   {path: 'articles/:slug', component: ArticleComponent},
+  {path: 'settings', component: SettingsComponent},
 ];
