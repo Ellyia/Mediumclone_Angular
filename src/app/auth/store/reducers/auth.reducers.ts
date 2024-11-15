@@ -18,6 +18,7 @@ import {
   getCurrentUserSuccessAction,
 } from '../actions/get-current-user.actions';
 import {updateCurrentUserSuccessAction} from '../actions/update-current-user.action';
+import {logoutAction} from '../actions/syncronous.action';
 
 export const authReducer = createReducer(
   initialAuthState,
@@ -104,5 +105,9 @@ export const authReducer = createReducer(
   on(updateCurrentUserSuccessAction, (state, {currentUser}) => ({
     ...state,
     currentUser,
+  })),
+  on(logoutAction, () => ({
+    ...initialAuthState,
+    isLoggedIn: false,
   }))
 );
