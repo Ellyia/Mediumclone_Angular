@@ -18,6 +18,7 @@ import {ArticleInterface} from '../shared/types/article.interfase';
 import {currentUserSelector} from '../auth/store/selectors';
 import {CurrentUserInterface} from '../shared/types/currentUser.interface';
 import {deleteArticleAction} from './store/actions/delete-article.action';
+import {AddToFavoritesComponent} from '../shared/components/add-to-favorites/add-to-favorites.component';
 
 @Component({
   selector: 'article',
@@ -28,6 +29,7 @@ import {deleteArticleAction} from './store/actions/delete-article.action';
     LoadingComponent,
     ErrorMessageComponent,
     TagListComponent,
+    AddToFavoritesComponent,
   ],
   templateUrl: './article.component.html',
   styleUrl: './article.component.scss',

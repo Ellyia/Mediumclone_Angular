@@ -1,0 +1,12 @@
+<button
+  [ngClass]="{
+    btn: true,
+    'btn-outline-primary': !isFavorited,
+    'btn-sm': true,
+    'btn-primary': isFavorited
+  }"
+  (click)="switchFavorit()"
+>
+  <i class="ion-heart"></i>
+  <span>&nbsp; {{ countOfFavorites || 0 }}</span>
+</button>
