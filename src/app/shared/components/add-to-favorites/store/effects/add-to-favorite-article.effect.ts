@@ -19,8 +19,12 @@ export class AddToFavoriteArticleEffects {
   addToFavoriteArticle$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addToFavoriteArticleAction),
-      switchMap(({slug}) => {
-        return this.addToFavoriteService.addToFavourite(slug).pipe(
+      switchMap(({isFavorited, slug}) => {
+        const article$ = isFavorited
+          ? this.addToFavoriteService.deleteFromFavourite(slug)
+          : this.addToFavoriteService.addToFavourite(slug);
+
+        return article$.pipe(
           map((article) => {
             return addToFavoriteArticleSuccessAction({article});
           }),

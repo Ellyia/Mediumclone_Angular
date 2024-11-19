@@ -23,7 +23,6 @@ import {appReducers} from './store/reducers/app.reducers';
 import {UpdateCurrentUserEffects} from './auth/store/effects/update-current-user.effect';
 import {LogoutEffects} from './auth/store/effects/logout.effect';
 import {AddToFavoriteArticleEffects} from './shared/components/add-to-favorites/store/effects/add-to-favorite-article.effect';
-import {RemoveFromFavoriteArticleEffects} from './shared/components/add-to-favorites/store/effects/remove-from-favorite-article.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -45,7 +44,6 @@ export const appConfig: ApplicationConfig = {
       UpdateCurrentUserEffects,
       LogoutEffects,
       AddToFavoriteArticleEffects,
-      RemoveFromFavoriteArticleEffects,
     ]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states

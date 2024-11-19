@@ -4,7 +4,6 @@ import {Store} from '@ngrx/store';
 
 import {AppStateInterface} from '../../types/appState.interface';
 import {addToFavoriteArticleAction} from './store/actions/add-to-favorite-article.action';
-import {removeFromFavoriteArticleAction} from './store/actions/remove-from-favorite-article.action';
 
 @Component({
   selector: 'add-to-favorites',
@@ -29,14 +28,17 @@ export class AddToFavoritesComponent {
   private readonly store = inject(Store<AppStateInterface>);
 
   switchFavorit(): void {
+    this.store.dispatch(
+      addToFavoriteArticleAction({
+        isFavorited: this.isFavorited,
+        slug: this.slugParam,
+      })
+    );
+
     if (this.isFavorited) {
       this.countOfFavorites = this.countOfFavorites - 1;
-      this.store.dispatch(
-        removeFromFavoriteArticleAction({slug: this.slugParam})
-      );
     } else {
       this.countOfFavorites = this.countOfFavorites + 1;
-      this.store.dispatch(addToFavoriteArticleAction({slug: this.slugParam}));
     }
     this.isFavorited = !this.isFavorited;
   }

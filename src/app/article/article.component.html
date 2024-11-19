@@ -33,7 +33,11 @@
         }
 
         <div class="info">
-          <add-to-favorites [slug]="article.slug"></add-to-favorites>
+          <add-to-favorites
+            [slug]="article.slug"
+            [isInFavorite]="article.favorited"
+            [countOfFavorites]="article.favoritesCount"
+          ></add-to-favorites>
         </div>
       </div>
     </div>

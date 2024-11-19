@@ -1,9 +1,10 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
 
 import {ArticleInterface} from '../../../types/article.interfase';
 import {environment} from '../../../../../environments/environment';
+import {GetArticleResponseInterface} from '../../../types/getArticleResponse.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,13 +14,17 @@ export class AddToFavoriteService {
 
   addToFavourite(slug: string): Observable<ArticleInterface> {
     const fullUrl = `${environment.apiUrl}/articles/${slug}/favorite`;
-    console.log('here');
-    return this.http.post<ArticleInterface>(fullUrl, {});
+
+    return this.http
+      .post<GetArticleResponseInterface>(fullUrl, {})
+      .pipe(map((resp) => resp.article));
   }
 
   deleteFromFavourite(slug: string): Observable<ArticleInterface> {
     const fullUrl = `${environment.apiUrl}/articles/${slug}/favorite`;
 
-    return this.http.delete<ArticleInterface>(fullUrl);
+    return this.http
+      .delete<GetArticleResponseInterface>(fullUrl)
+      .pipe(map((resp) => resp.article));
   }
 }

@@ -5,7 +5,7 @@ import {ArticleInterface} from '../../../../types/article.interfase';
 
 export const addToFavoriteArticleAction = createAction(
   ActionTypes.ADD_TO_FAVORITE_ARTICLE,
-  props<{slug: string}>()
+  props<{isFavorited: boolean; slug: string}>()
 );
 
 export const addToFavoriteArticleSuccessAction = createAction(
