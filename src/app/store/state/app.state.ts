@@ -6,6 +6,7 @@ import {initialSettingsState} from '../../settings/store/state/settings.state';
 import {initialFeedState} from '../../shared/components/feed/store/state/feed.state';
 import {initialPopularTagsState} from '../../shared/components/popular-tags/store/state/popular-tags.state';
 import {AppStateInterface} from '../../shared/types/appState.interface';
+import {initialProfileState} from '../../user-profile/store/state/profile.state';
 
 export const initialAppState: AppStateInterface = {
   auth: initialAuthState,
@@ -15,6 +16,7 @@ export const initialAppState: AppStateInterface = {
   createArticle: initialCreateArticleState,
   editArticle: initialEditArticleState,
   settings: initialSettingsState,
+  userProfile: initialProfileState,
 };
 
 export function getInitState(): AppStateInterface {

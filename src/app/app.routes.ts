@@ -9,6 +9,7 @@ import {ArticleComponent} from './article/article.component';
 import {CreateArticleComponent} from './create-article/create-article.component';
 import {EditArticleComponent} from './edit-article/edit-article.component';
 import {SettingsComponent} from './settings/components/settings/settings.component';
+import {UserProfileComponent} from './user-profile/user-profile.component';
 
 export const routes: Routes = [
   {path: '', component: GlobalFeedComponent},
@@ -20,4 +21,7 @@ export const routes: Routes = [
   {path: 'articles/:slug/edit', component: EditArticleComponent},
   {path: 'articles/:slug', component: ArticleComponent},
   {path: 'settings', component: SettingsComponent},
+  {path: 'profiles/:slug/favorites', component: UserProfileComponent},
+  {path: 'profiles/:slug', component: UserProfileComponent},
+  {path: '**', redirectTo: ''}, // PageNotFoundComponent
 ];
