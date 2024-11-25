@@ -21,7 +21,7 @@ export const routes: Routes = [
   {path: 'articles/:slug/edit', component: EditArticleComponent},
   {path: 'articles/:slug', component: ArticleComponent},
   {path: 'settings', component: SettingsComponent},
-  {path: 'profiles/:slug/favorites', component: UserProfileComponent},
+  {path: 'profiles/:slug/favorited', component: UserProfileComponent},
   {path: 'profiles/:slug', component: UserProfileComponent},
   {path: '**', redirectTo: ''}, // PageNotFoundComponent
 ];

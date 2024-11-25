@@ -12,13 +12,11 @@ import {ProfileInterface} from '../../shared/types/profile.interface';
 export class UserProfileService {
   private readonly http = inject(HttpClient);
 
-  getProfile(slug: string): Observable<ProfileInterface> {
-    const fullUrl = `${environment.apiUrl}/profiles/${slug}`;
+  getProfile(url: string): Observable<ProfileInterface> {
+    const fullUrl = `${environment.apiUrl}/profiles/${url}`;
 
     return this.http
       .get<UserProfileResponseInterface>(fullUrl)
       .pipe(map((res) => res.profile));
   }
-
-  getProfileFavorites(slug: string): void {}
 }

@@ -57,7 +57,10 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     const requestData: LoginRequestInterface = {
-      user: this.formLog.value,
+      user: {
+        email: this.formLog.value.email.toLowerCase(),
+        password: this.formLog.value.password,
+      },
     };
     this.store.dispatch(loginAction({request: requestData}));
   }
