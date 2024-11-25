@@ -20,6 +20,10 @@ import {CreateArticleEffects} from './create-article/store/effects/create-articl
 import {UpdateArticleEffects} from './edit-article/store/effects/get-article.effect';
 import {EditArticleEffects} from './edit-article/store/effects/edit-article.effect';
 import {appReducers} from './store/reducers/app.reducers';
+import {UpdateCurrentUserEffects} from './auth/store/effects/update-current-user.effect';
+import {LogoutEffects} from './auth/store/effects/logout.effect';
+import {AddToFavoriteArticleEffects} from './shared/components/add-to-favorites/store/effects/add-to-favorite-article.effect';
+import {GetProfileEffect} from './user-profile/store/effects/get-profile.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -38,6 +42,10 @@ export const appConfig: ApplicationConfig = {
       CreateArticleEffects,
       UpdateArticleEffects,
       EditArticleEffects,
+      UpdateCurrentUserEffects,
+      LogoutEffects,
+      AddToFavoriteArticleEffects,
+      GetProfileEffect,
     ]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states

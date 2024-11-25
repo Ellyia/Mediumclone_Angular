@@ -7,6 +7,8 @@ import {popularTagsReducer} from '../../shared/components/popular-tags/store/red
 import {articleReducer} from '../../article/store/reducers/article.reducer';
 import {createArticleReducer} from '../../create-article/store/reducers/create-article.reducer';
 import {editArticleReducer} from '../../edit-article/store/reducers/edit-article.reducer';
+import {settingsReducer} from '../../settings/store/reducers/settings.reducers';
+import {profileReducer} from '../../user-profile/store/reducers/profile.reducer';
 
 export const appReducers: ActionReducerMap<AppStateInterface, any> = {
   auth: authReducer,
@@ -16,4 +18,6 @@ export const appReducers: ActionReducerMap<AppStateInterface, any> = {
   article: articleReducer,
   createArticle: createArticleReducer,
   editArticle: editArticleReducer,
+  settings: settingsReducer,
+  userProfile: profileReducer,
 };
