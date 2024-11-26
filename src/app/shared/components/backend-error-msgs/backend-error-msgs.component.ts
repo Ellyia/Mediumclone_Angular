@@ -1,11 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BackendErrorsInterface} from '../../types/backendErrors.interface';
-import {NgFor} from '@angular/common';
 
 @Component({
   selector: 'backend-error-msgs',
   standalone: true,
-  imports: [NgFor],
+  imports: [],
   templateUrl: './backend-error-msgs.component.html',
   styleUrl: './backend-error-msgs.component.scss',
 })

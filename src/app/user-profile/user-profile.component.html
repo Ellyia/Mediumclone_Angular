@@ -2,8 +2,8 @@
 <loading></loading>
 } @if (errors$ | async) {
 <backend-error-msgs [backendErrors]="errors$ | async"></backend-error-msgs>
-}
-<div class="profile-page" *ngIf="userProfile$ | async as userProfile">
+} @if (userProfile$ | async; as userProfile) {
+<div class="profile-page">
   <div class="user-info">
     <div class="container">
       <div class="row">
@@ -60,3 +60,4 @@
     </div>
   </div>
 </div>
+}

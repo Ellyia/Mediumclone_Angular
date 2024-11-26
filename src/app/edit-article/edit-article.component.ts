@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {filter, map, Observable} from 'rxjs';
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 
 import {AppStateInterface} from '../shared/types/appState.interface';
 import {ArticleInputInterface} from '../shared/types/articleInput.interface';
@@ -22,7 +22,7 @@ import {updateArticleAction} from './store/actions/edit-article.action';
 @Component({
   selector: 'edit-article',
   standalone: true,
-  imports: [ArticleFormComponent, AsyncPipe, LoadingComponent, NgIf],
+  imports: [ArticleFormComponent, AsyncPipe, LoadingComponent],
   templateUrl: './edit-article.component.html',
   styleUrl: './edit-article.component.scss',
 })

@@ -2,8 +2,9 @@
 <loading></loading>
 } @if (error$ | async) {
 <error-message></error-message>
-} @if (feed$ | async) {
-<div class="article-preview" *ngFor="let article of (feed$ | async)?.articles">
+} @if (feed$ | async) { @for (article of (feed$ | async)?.articles; track
+article.title) {
+<div class="article-preview">
   <div class="article-meta">
     <a [routerLink]="['/profiles', article.author.username]">
       <img [src]="article.author.image" alt="authorImg" />
@@ -30,6 +31,7 @@
     <tag-list [tags]="article.tagList"></tag-list>
   </a>
 </div>
+}
 
 <pagination
   [articlesCount]="(feed$ | async)?.articlesCount || 0"

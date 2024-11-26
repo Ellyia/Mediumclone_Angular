@@ -1,5 +1,5 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {AsyncPipe, NgFor, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ActivatedRoute, Params, Router, RouterModule} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
@@ -23,8 +23,6 @@ import {PopularTagType} from '../../types/popularTag.type';
   standalone: true,
   imports: [
     AsyncPipe,
-    NgFor,
-    NgIf,
     RouterModule,
     ErrorMessageComponent,
     LoadingComponent,

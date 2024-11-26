@@ -1,5 +1,7 @@
 <ul class="error-messages">
-  <li *ngFor="let msg of errorMsgs">
+  @for (msg of errorMsgs; track msg) {
+  <li>
     {{ msg }}
   </li>
+  }
 </ul>
