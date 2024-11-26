@@ -1,5 +1,5 @@
 import {ApplicationConfig, provideZoneChangeDetection} from '@angular/core';
-import {provideRouter} from '@angular/router';
+import {provideRouter, withComponentInputBinding} from '@angular/router';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {provideStoreDevtools} from '@ngrx/store-devtools';
 import {provideStore} from '@ngrx/store';
@@ -28,7 +28,7 @@ import {GetProfileEffect} from './user-profile/store/effects/get-profile.effect'
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({eventCoalescing: true}),
-    provideRouter(routes),
+    provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(withInterceptors([authInterceptor])), // withInterceptors([]) - if I will need interceptors / if not - provideHttpClient() // instead of: importProvidersFrom(HttpClientModule) - deprecated,
     provideStore(appReducers), // {appState: authReducer} if 1 reducer and if I don't have appReducer
     provideEffects([

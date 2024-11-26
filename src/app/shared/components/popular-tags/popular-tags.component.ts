@@ -8,8 +8,6 @@ import {AppStateInterface} from '../../types/appState.interface';
 import {ErrorMessageComponent} from '../error-messages/error-message.component';
 import {LoadingComponent} from '../loadind/loading.component';
 import {environment} from '../../../../environments/environment';
-import {PaginationComponent} from '../pagination/pagination.component';
-import {TagListComponent} from '../tag-list/tag-list.component';
 import {getPopularTagsAction} from './store/actions/get-popular-tags.action';
 import {
   errorPopularTagsSelector,
@@ -21,14 +19,7 @@ import {PopularTagType} from '../../types/popularTag.type';
 @Component({
   selector: 'popular-tags',
   standalone: true,
-  imports: [
-    AsyncPipe,
-    RouterModule,
-    ErrorMessageComponent,
-    LoadingComponent,
-    PaginationComponent,
-    TagListComponent,
-  ],
+  imports: [AsyncPipe, RouterModule, ErrorMessageComponent, LoadingComponent],
   templateUrl: './popular-tags.component.html',
   styleUrl: './popular-tags.component.scss',
 })
