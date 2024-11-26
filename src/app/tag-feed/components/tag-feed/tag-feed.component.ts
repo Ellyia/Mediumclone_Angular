@@ -25,9 +25,6 @@ export class TagFeedComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
 
   ngOnInit() {
-    // this.tagName = this.route.snapshot.paramMap.get('slug');
-    // this.apiUrl = `/articles?tag=${this.tagName}`;
-
     this.route.params.subscribe((params: Params) => {
       this.tagName = params['slug'];
       this.apiUrl = `/articles?tag=${this.tagName}`;

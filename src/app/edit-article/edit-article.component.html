@@ -1,8 +1,10 @@
-<loading *ngIf="isLoading$ | async"></loading>
+@if (isLoading$ | async) {
+<loading></loading>
+} @if (initialValues$ | async; as initialValues) {
 <article-form
-  *ngIf="initialValues$ | async as initialValues"
   [initialValues]="initialValues"
   [isSubmitting]="isSubmitting$ | async"
   [errors]="validationErrors$ | async"
   (articleSubmit)="onSubmit($event)"
 ></article-form>
+}
