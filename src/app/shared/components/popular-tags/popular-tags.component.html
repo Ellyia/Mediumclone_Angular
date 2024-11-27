@@ -1,18 +1,16 @@
 @if (isLoading$ | async) {
 <loading></loading>
+} @if (error$ | async) {
+<error-message></error-message>
 } @if (popularTags$ | async; as popularTags) {
 <div class="sidebar">
   <p>Popular Tags</p>
   <div class="tag-list">
     @for (tag of popularTags; track tag) {
-    <div class="tag-default tag-pill">
-      <a [routerLink]="['/tags', tag]">
-        {{ tag }}
-      </a>
-    </div>
+    <a [routerLink]="['/tags', tag]" class="tag-default tag-pill">
+      {{ tag }}
+    </a>
     }
   </div>
 </div>
-} @if (error$ | async) {
-<error-message></error-message>
 }

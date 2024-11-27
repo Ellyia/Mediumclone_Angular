@@ -45,9 +45,11 @@ export class EditArticleComponent {
 
   initialiseValues(): void {
     this.slug = this.route.snapshot.paramMap.get('slug') || '';
+
     this.isSubmitting$ = this.store.select(isSubmittingSelector);
     this.validationErrors$ = this.store.select(validationErrorsSelector);
     this.isLoading$ = this.store.select(isLoadingSelector);
+
     this.initialValues$ = this.store.pipe(
       select(articleSelector),
       filter(Boolean), // can be null, but... I will wait for result with filter, when res will be not null/undefined

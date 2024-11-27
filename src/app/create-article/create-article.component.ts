@@ -1,7 +1,5 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, Signal} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
 
 import {AppStateInterface} from '../shared/types/appState.interface';
 import {createArticleAction} from './store/actions/create-article.action';
@@ -12,11 +10,12 @@ import {
   isSubmittingSelector,
   validationErrorsSelector,
 } from './store/selectors';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'create-article',
   standalone: true,
-  imports: [ArticleFormComponent, AsyncPipe],
+  imports: [ArticleFormComponent],
   templateUrl: './create-article.component.html',
   styleUrl: './create-article.component.scss',
 })
@@ -30,13 +29,23 @@ export class CreateArticleComponent {
     tagList: [],
   };
 
-  isSubmitting$!: Observable<boolean | null>;
-  validationErrors$!: Observable<BackendErrorsInterface | null>;
+  readonly isSubmitting: Signal<boolean | null> = toSignal(
+    this.store.select(isSubmittingSelector),
+    {requireSync: true}
+  );
 
-  ngOnInit(): void {
-    this.isSubmitting$ = this.store.select(isSubmittingSelector);
-    this.validationErrors$ = this.store.select(validationErrorsSelector);
-  }
+  readonly validationErrors: Signal<BackendErrorsInterface | null> = toSignal(
+    this.store.select(validationErrorsSelector),
+    {requireSync: true}
+  );
+
+  // isSubmitting$!: Observable<boolean | null>;
+  // validationErrors$!: Observable<BackendErrorsInterface | null>;
+
+  // ngOnInit(): void {
+  //   this.isSubmitting$ = this.store.select(isSubmittingSelector);
+  //   this.validationErrors$ = this.store.select(validationErrorsSelector);
+  // }
 
   onSubmit($event: ArticleInputInterface): void {
     this.store.dispatch(createArticleAction({articleInput: $event}));

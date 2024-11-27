@@ -17,5 +17,5 @@ import {PopularTagsComponent} from '../../../shared/components/popular-tags/popu
   styleUrl: './your-feed.component.scss',
 })
 export class YourFeedComponent {
-  apiUrl = '/articles/feed';
+  apiUrl = '/articles/feed'; // needs to follow some user
 }

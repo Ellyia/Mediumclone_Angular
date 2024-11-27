@@ -26,7 +26,6 @@ export class TagFeedComponent {
   readonly slug = input.required<string>();
 
   readonly apiUrl = computed(() => {
-    console.log(this.slug());
     return `/articles?tag=${this.slug()}`;
   });
 

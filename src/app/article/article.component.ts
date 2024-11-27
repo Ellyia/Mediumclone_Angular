@@ -1,8 +1,9 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, Signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {combineLatest, map, Observable} from 'rxjs';
+import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 
 import {getArticleAction} from './store/actions/get-article.action';
 import {LoadingComponent} from '../shared/components/loadind/loading.component';
@@ -36,14 +37,30 @@ import {AddToFavoritesComponent} from '../shared/components/add-to-favorites/add
 })
 export class ArticleComponent implements OnInit {
   private readonly store = inject(Store<AppStateInterface>);
-  private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
-  isLoading$!: Observable<boolean>;
-  error$!: Observable<string | null>;
-  article$!: Observable<ArticleInterface | null>;
+  // isLoading$!: Observable<boolean>;
+  // error$!: Observable<string | null>;
+  // article$!: Observable<ArticleInterface | null>;
   slug!: string;
   isAuthor$!: Observable<boolean>;
+
+  readonly article: Signal<ArticleInterface | null> = toSignal(
+    this.store.select(articleDataSelector),
+    {requireSync: true}
+  );
+
+  article$: Observable<ArticleInterface | null> = toObservable(this.article);
+
+  readonly isLoading: Signal<boolean> = toSignal(
+    this.store.select(isLoadingArticleSelector),
+    {requireSync: true}
+  );
+
+  readonly error: Signal<string | null> = toSignal(
+    this.store.select(errorArticleSelector),
+    {requireSync: true}
+  );
 
   ngOnInit(): void {
     this.initialiseValues();
@@ -55,13 +72,14 @@ export class ArticleComponent implements OnInit {
   }
 
   initialiseValues(): void {
-    this.slug = this.route.snapshot.paramMap.get('slug') || '';
-    this.isLoading$ = this.store.select(isLoadingArticleSelector);
-    this.error$ = this.store.select(errorArticleSelector);
-    this.article$ = this.store.select(articleDataSelector);
+    this.slug = this.route.snapshot.paramMap.get('slug') ?? '';
+    // this.isLoading$ = this.store.select(isLoadingArticleSelector);
+    // this.error$ = this.store.select(errorArticleSelector);
+    // this.article$ = this.store.select(articleDataSelector);
 
     this.isAuthor$ = combineLatest([
-      this.store.select(articleDataSelector),
+      // this.store.select(articleDataSelector),
+      this.article$,
       this.store.select(currentUserSelector),
     ]).pipe(
       map(

@@ -1,6 +1,6 @@
 <div class="article-page">
   <div class="banner">
-    @if (article$ | async; as article) {
+    @if (article(); as article) {
     <div class="container">
       <h1>{{ article.title }}</h1>
 
@@ -46,11 +46,11 @@
   </div>
 
   <div class="container page">
-    @if (isLoading$ | async) {
+    @if (isLoading()) {
     <loading></loading>
-    } @if (error$ | async) {
+    } @if (error()) {
     <error-message></error-message>
-    } @if (article$ | async; as article) {
+    } @if (article(); as article) {
     <div class="row article-content">
       <div class="col-xs-12">
         <p>{{ article.body }}</p>
