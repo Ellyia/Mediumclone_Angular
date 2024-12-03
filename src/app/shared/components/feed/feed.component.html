@@ -1,9 +1,9 @@
-@if (isLoading$ | async) {
+@if (isLoading()) {
 <loading></loading>
-} @if (error$ | async) {
+} @if (error()) {
 <error-message></error-message>
-} @if (feed$ | async) { @for (article of (feed$ | async)?.articles; track
-article.title) {
+} @if (feed(); as feed) { @for (article of feed?.articles; track article.title)
+{
 <div class="article-preview">
   <div class="article-meta">
     <a [routerLink]="['/profiles', article.author.username]">
@@ -34,7 +34,7 @@ article.title) {
 }
 
 <pagination
-  [articlesCount]="(feed$ | async)?.articlesCount || 0"
+  [articlesCount]="feed?.articlesCount || 0"
   [limit]="limitOfArticles"
   [url]="baseUrl"
   [currentPage]="currentParamsPage"

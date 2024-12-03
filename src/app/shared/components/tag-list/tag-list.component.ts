@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 
 import {PopularTagType} from '../../types/popularTag.type';
 
@@ -10,5 +10,6 @@ import {PopularTagType} from '../../types/popularTag.type';
   styleUrl: './tag-list.component.scss',
 })
 export class TagListComponent {
-  @Input('tags') tagsProps!: PopularTagType[];
+  // @Input('tags') tagsProps!: PopularTagType[];
+  tags = input.required<PopularTagType[]>();
 }

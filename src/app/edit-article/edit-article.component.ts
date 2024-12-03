@@ -1,7 +1,8 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, Signal} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {filter, map, Observable} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 import {AppStateInterface} from '../shared/types/appState.interface';
 import {ArticleInputInterface} from '../shared/types/articleInput.interface';
@@ -32,9 +33,23 @@ export class EditArticleComponent {
 
   initialValues$!: Observable<ArticleInputInterface>; // can be null, but...
 
-  isLoading$!: Observable<boolean>;
-  isSubmitting$!: Observable<boolean | null>;
-  validationErrors$!: Observable<BackendErrorsInterface | null>;
+  // isLoading$!: Observable<boolean>;
+  // isSubmitting$!: Observable<boolean | null>;
+  // validationErrors$!: Observable<BackendErrorsInterface | null>;
+
+  isLoading: Signal<boolean> = toSignal(this.store.select(isLoadingSelector), {
+    requireSync: true,
+  });
+
+  isSubmitting: Signal<boolean | null> = toSignal(
+    this.store.select(isSubmittingSelector),
+    {requireSync: true}
+  );
+
+  validationErrors: Signal<BackendErrorsInterface | null> = toSignal(
+    this.store.select(validationErrorsSelector),
+    {requireSync: true}
+  );
 
   slug!: string;
 
@@ -46,9 +61,9 @@ export class EditArticleComponent {
   initialiseValues(): void {
     this.slug = this.route.snapshot.paramMap.get('slug') || '';
 
-    this.isSubmitting$ = this.store.select(isSubmittingSelector);
-    this.validationErrors$ = this.store.select(validationErrorsSelector);
-    this.isLoading$ = this.store.select(isLoadingSelector);
+    // this.isSubmitting$ = this.store.select(isSubmittingSelector);
+    // this.validationErrors$ = this.store.select(validationErrorsSelector);
+    // this.isLoading$ = this.store.select(isLoadingSelector);
 
     this.initialValues$ = this.store.pipe(
       select(articleSelector),

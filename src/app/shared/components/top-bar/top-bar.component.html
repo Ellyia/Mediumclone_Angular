@@ -6,7 +6,7 @@
         <a [routerLink]="['/']" class="nav-link">Home</a>
       </li>
 
-      @if (isLoggedIn$ | async) {
+      @if (isLoggedIn()) {
       <li class="nav-item">
         <a [routerLink]="['/articles/new']" class="nav-link">
           <i class="ion-compose"></i>
@@ -23,14 +23,14 @@
 
       <li class="nav-item">
         <a
-          [routerLink]="['/profiles', (currentUser$ | async)?.username]"
+          [routerLink]="['/profiles', currentUser()?.username]"
           class="nav-link"
         >
-          <img class="user-pic" [src]="(currentUser$ | async)?.image" />
-          &nbsp; {{ (currentUser$ | async)?.username }}
+          <img class="user-pic" [src]="currentUser()?.image" />
+          &nbsp; {{ currentUser()?.username }}
         </a>
       </li>
-      } @if (isAnonymous$ | async) {
+      } @if (isAnonymous()) {
       <li class="nav-item">
         <a [routerLink]="['/login']" class="nav-link"> Sign In </a>
       </li>

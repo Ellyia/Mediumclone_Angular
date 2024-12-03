@@ -7,9 +7,9 @@
           <a href="['/register']">Do not have an account?</a>
         </p>
 
-        @if (backendErrors$ | async) {
+        @if (backendErrors(); as backendErrors) {
         <backend-error-msgs
-          [backendErrors]="backendErrors$ | async"
+          [backendErrors]="backendErrors"
         ></backend-error-msgs>
         }
 
@@ -40,7 +40,7 @@
             <button
               class="btn btn-lg btn-primary pull-xs-right"
               type="submit"
-              [disabled]="isSubmitting$ | async"
+              [disabled]="isSubmitting()"
             >
               Sign In
             </button>

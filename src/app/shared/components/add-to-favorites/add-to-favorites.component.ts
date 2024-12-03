@@ -17,6 +17,8 @@ export class AddToFavoritesComponent {
   @Input('isInFavorite') isInFavoriteProps!: boolean;
   @Input('countOfFavorites') countOfFavoritesProps!: number;
 
+  private readonly store = inject(Store<AppStateInterface>);
+
   countOfFavorites!: number;
   isFavorited!: boolean;
 
@@ -24,8 +26,6 @@ export class AddToFavoritesComponent {
     this.countOfFavorites = this.countOfFavoritesProps;
     this.isFavorited = this.isInFavoriteProps;
   }
-
-  private readonly store = inject(Store<AppStateInterface>);
 
   switchFavorit(): void {
     this.store.dispatch(

@@ -1,8 +1,8 @@
-@if (isLoading$ | async) {
+@if (isLoading()) {
 <loading></loading>
-} @if (error$ | async) {
+} @if (error()) {
 <error-message></error-message>
-} @if (popularTags$ | async; as popularTags) {
+} @if (popularTags(); as popularTags) {
 <div class="sidebar">
   <p>Popular Tags</p>
   <div class="tag-list">

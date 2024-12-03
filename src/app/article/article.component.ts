@@ -1,9 +1,8 @@
-import {Component, inject, OnInit, Signal} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import {Component, computed, inject, OnInit, Signal} from '@angular/core';
+import {ActivatedRoute, RouterModule} from '@angular/router';
 import {Store} from '@ngrx/store';
-import {combineLatest, map, Observable} from 'rxjs';
-import {toObservable, toSignal} from '@angular/core/rxjs-interop';
+// import {combineLatest, map, Observable} from 'rxjs';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 import {getArticleAction} from './store/actions/get-article.action';
 import {LoadingComponent} from '../shared/components/loadind/loading.component';
@@ -25,7 +24,6 @@ import {AddToFavoritesComponent} from '../shared/components/add-to-favorites/add
   selector: 'article',
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     LoadingComponent,
     ErrorMessageComponent,
@@ -43,14 +41,24 @@ export class ArticleComponent implements OnInit {
   // error$!: Observable<string | null>;
   // article$!: Observable<ArticleInterface | null>;
   slug!: string;
-  isAuthor$!: Observable<boolean>;
+  // isAuthor$!: Observable<boolean>;
 
   readonly article: Signal<ArticleInterface | null> = toSignal(
     this.store.select(articleDataSelector),
     {requireSync: true}
   );
 
-  article$: Observable<ArticleInterface | null> = toObservable(this.article);
+  readonly currentUser: Signal<CurrentUserInterface | null> = toSignal(
+    this.store.select(currentUserSelector),
+    {requireSync: true}
+  );
+
+  readonly isAuthor: Signal<boolean> = computed(() => {
+    // if (!this.article() || !this.currentUser()) return false;
+    return this.article()?.author.username === this.currentUser()?.username;
+  });
+
+  // article$: Observable<ArticleInterface | null> = toObservable(this.article);
 
   readonly isLoading: Signal<boolean> = toSignal(
     this.store.select(isLoadingArticleSelector),
@@ -77,21 +85,21 @@ export class ArticleComponent implements OnInit {
     // this.error$ = this.store.select(errorArticleSelector);
     // this.article$ = this.store.select(articleDataSelector);
 
-    this.isAuthor$ = combineLatest([
-      // this.store.select(articleDataSelector),
-      this.article$,
-      this.store.select(currentUserSelector),
-    ]).pipe(
-      map(
-        ([article, user]: [
-          ArticleInterface | null,
-          CurrentUserInterface | null
-        ]) => {
-          if (!article || !user) return false;
-          return article.author.username === user.username;
-        }
-      )
-    );
+    // this.isAuthor$ = combineLatest([
+    //   // this.store.select(articleDataSelector),
+    //   this.article$,
+    //   this.store.select(currentUserSelector),
+    // ]).pipe(
+    //   map(
+    //     ([article, user]: [
+    //       ArticleInterface | null,
+    //       CurrentUserInterface | null
+    //     ]) => {
+    //       if (!article || !user) return false;
+    //       return article.author.username === user.username;
+    //     }
+    //   )
+    // );
   }
 
   deleteArticle(): void {

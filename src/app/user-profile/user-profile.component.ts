@@ -1,7 +1,12 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {combineLatest, filter, map, Observable} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  OnInit,
+  Signal,
+} from '@angular/core';
+import {Store} from '@ngrx/store';
 import {
   ActivatedRoute,
   Params,
@@ -9,6 +14,8 @@ import {
   RouterLink,
   RouterModule,
 } from '@angular/router';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 import {AppStateInterface} from '../shared/types/appState.interface';
 import {BackendErrorsInterface} from '../shared/types/backendErrors.interface';
@@ -30,7 +37,6 @@ import {FeedComponent} from '../shared/components/feed/feed.component';
   standalone: true,
   imports: [
     LoadingComponent,
-    AsyncPipe,
     BackendErrorMsgsComponent,
     RouterLink,
     FeedComponent,
@@ -44,11 +50,28 @@ export class UserProfileComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
-  isLoading$!: Observable<boolean>;
-  errors$!: Observable<BackendErrorsInterface | null>;
-  userProfile$!: Observable<ProfileInterface | null>;
+  destroyRef = inject(DestroyRef);
 
-  isCurrentUserProfile$!: Observable<boolean>;
+  isLoading: Signal<boolean> = toSignal(
+    this.store.select(isLoadingProfileselector),
+    {requireSync: true}
+  );
+  errors: Signal<BackendErrorsInterface | null> = toSignal(
+    this.store.select(errorsProfileSelector),
+    {requireSync: true}
+  );
+  userProfile: Signal<ProfileInterface | null> = toSignal(
+    this.store.select(userProfileSelector),
+    {requireSync: true}
+  );
+  currentUser: Signal<CurrentUserInterface | null> = toSignal(
+    this.store.select(currentUserSelector),
+    {requireSync: true}
+  );
+
+  isCurrentUserProfile: Signal<boolean> = computed(
+    () => this.currentUser()?.username === this.userProfile()?.username
+  );
 
   apiUrl!: string;
   slug!: string;
@@ -59,35 +82,48 @@ export class UserProfileComponent implements OnInit {
   }
 
   initializeListeners(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.slug = params['slug'];
-      this.getUserProfile();
-    });
+    this.route.params
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params: Params) => {
+        this.slug = params['slug'];
+
+        this.getApiUrl();
+
+        this.getUserProfile();
+      });
   }
 
   initialiseValues(): void {
-    this.isLoading$ = this.store.select(isLoadingProfileselector);
-    this.userProfile$ = this.store.select(userProfileSelector);
-    this.errors$ = this.store.select(errorsProfileSelector);
+    // this.isLoading$ = this.store.select(isLoadingProfileselector);
+    // this.userProfile$ = this.store.select(userProfileSelector);
+    // this.errors$ = this.store.select(errorsProfileSelector);
 
     this.slug = this.route.snapshot.paramMap.get('slug') || '';
 
+    // const isFavorites = this.router.url.includes('favorited');
+    // this.apiUrl = isFavorites
+    //   ? `/articles?favorited=${this.slug}`
+    //   : `/articles?author=${this.slug}`; // why it changes?
+
+    // this.isCurrentUserProfile$ = combineLatest([
+    //   this.store.pipe(select(currentUserSelector), filter(Boolean)),
+    //   this.store.pipe(select(userProfileSelector), filter(Boolean)),
+    // ]).pipe(
+    //   map(
+    //     ([currentUser, userProfile]: [
+    //       CurrentUserInterface,
+    //       ProfileInterface
+    //     ]) => currentUser.username === userProfile.username
+    //   )
+    // );
+  }
+
+  getApiUrl(): void {
     const isFavorites = this.router.url.includes('favorited');
+
     this.apiUrl = isFavorites
       ? `/articles?favorited=${this.slug}`
-      : `/articles?author=${this.slug}`; // why it changes?
-
-    this.isCurrentUserProfile$ = combineLatest([
-      this.store.pipe(select(currentUserSelector), filter(Boolean)),
-      this.store.pipe(select(userProfileSelector), filter(Boolean)),
-    ]).pipe(
-      map(
-        ([currentUser, userProfile]: [
-          CurrentUserInterface,
-          ProfileInterface
-        ]) => currentUser.username === userProfile.username
-      )
-    );
+      : `/articles?author=${this.slug}`; // now it changes?
   }
 
   getUserProfile(): void {

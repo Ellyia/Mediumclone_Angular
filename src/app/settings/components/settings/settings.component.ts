@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, Signal} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -22,11 +22,12 @@ import {BackendErrorMsgsComponent} from '../../../shared/components/backend-erro
 import {updateCurrentUserAction} from '../../../auth/store/actions/update-current-user.action';
 import {CurrentUserInputInterface} from '../../../shared/types/currentUserInput.interface';
 import {logoutAction} from '../../../auth/store/actions/syncronous.action';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'settings',
   standalone: true,
-  imports: [ReactiveFormsModule, BackendErrorMsgsComponent, AsyncPipe],
+  imports: [ReactiveFormsModule, BackendErrorMsgsComponent],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss',
 })
@@ -36,14 +37,21 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   unsubscribe$: Subject<void> = new Subject();
 
-  isSubmitting$!: Observable<boolean>;
-  backendErrors$!: Observable<BackendErrorsInterface | null>;
+  readonly isSubmitting: Signal<boolean> = toSignal(
+    this.store.select(isSubmittingSelector),
+    {requireSync: true}
+  );
+
+  readonly backendErrors: Signal<BackendErrorsInterface | null> = toSignal(
+    this.store.select(validationErrorsSelector),
+    {requireSync: true}
+  );
 
   currentUser!: CurrentUserInterface;
   form!: FormGroup;
 
   ngOnInit(): void {
-    this.initializeValues();
+    // this.initializeValues();
     this.initializeListeners();
   }
 
@@ -61,10 +69,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
       });
   }
 
-  initializeValues(): void {
-    this.isSubmitting$ = this.store.select(isSubmittingSelector);
-    this.backendErrors$ = this.store.select(validationErrorsSelector);
-  }
+  // initializeValues(): void {
+  // this.isSubmitting$ = this.store.select(isSubmittingSelector);
+  // this.backendErrors$ = this.store.select(validationErrorsSelector);
+  // }
 
   initializeForm(): void {
     this.form = this.fb.group({

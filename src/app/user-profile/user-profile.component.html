@@ -1,8 +1,8 @@
-@if (isLoading$ | async) {
+@if (isLoading()) {
 <loading></loading>
-} @if (errors$ | async) {
-<backend-error-msgs [backendErrors]="errors$ | async"></backend-error-msgs>
-} @if (userProfile$ | async; as userProfile) {
+} @if (errors()) {
+<backend-error-msgs [backendErrors]="errors()"></backend-error-msgs>
+} @if (userProfile(); as userProfile) {
 <div class="profile-page">
   <div class="user-info">
     <div class="container">
@@ -12,7 +12,7 @@
           <h4>{{ userProfile.username }}</h4>
           <p>{{ userProfile.bio }}</p>
           <div>
-            FOLLOW USER BUTTON @if (isCurrentUserProfile$ | async) {
+            FOLLOW USER BUTTON @if (isCurrentUserProfile()) {
             <a
               class="btn btn-sm btn-outline-secondary action-btn"
               [routerLink]="['/settings']"

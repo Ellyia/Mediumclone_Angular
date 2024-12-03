@@ -1,13 +1,13 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, Signal} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import {Observable} from 'rxjs/internal/Observable';
+import {toSignal} from '@angular/core/rxjs-interop';
 import {select, Store} from '@ngrx/store';
-import {CommonModule} from '@angular/common';
+// import {CommonModule} from '@angular/common';
 
 import {BackendErrorsInterface} from '../../../shared/types/backendErrors.interface';
 import {
@@ -22,31 +22,44 @@ import {loginAction} from '../../store/actions/login.action';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, BackendErrorMsgsComponent],
+  imports: [ReactiveFormsModule, BackendErrorMsgsComponent],
   providers: [],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
+  private readonly store = inject(Store<AppStateInterface>);
+  private readonly fb = inject(FormBuilder);
+
   formLog!: FormGroup;
 
-  isSubmitting$!: Observable<boolean>;
-  backendErrors$!: Observable<BackendErrorsInterface | null>;
+  // isSubmitting$!: Observable<boolean>;
+  // backendErrors$!: Observable<BackendErrorsInterface | null>;
 
-  constructor(
-    @Inject(Store) private store: Store<AppStateInterface>,
-    private fb: FormBuilder
-  ) {}
+  isSubmitting: Signal<boolean> = toSignal(
+    this.store.pipe(select(isSubmittingSelector)),
+    {requireSync: true}
+  );
+
+  backendErrors: Signal<BackendErrorsInterface | null> = toSignal(
+    this.store.select(validationErrorsSelector),
+    {requireSync: true}
+  );
+
+  // constructor(
+  //   @Inject(Store) private store: Store<AppStateInterface>,
+  //   private fb: FormBuilder
+  // ) {}
 
   ngOnInit(): void {
     this.initializeLogForm();
-    this.initializeValues();
+    // this.initializeValues();
   }
 
-  initializeValues(): void {
-    this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector));
-    this.backendErrors$ = this.store.pipe(select(validationErrorsSelector));
-  }
+  // initializeValues(): void {
+  //   this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector));
+  //   this.backendErrors$ = this.store.pipe(select(validationErrorsSelector));
+  // }
 
   initializeLogForm(): void {
     this.formLog = this.fb.group({

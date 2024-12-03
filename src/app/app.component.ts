@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {TopBarComponent} from './shared/components/top-bar/top-bar.component';
 import {AppStateInterface} from './shared/types/appState.interface';
@@ -13,7 +13,7 @@ import {getCurrentUserAction} from './auth/store/actions/get-current-user.action
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  constructor(private store: Store<AppStateInterface>) {}
+  private readonly store = inject(Store<AppStateInterface>);
 
   ngOnInit(): void {
     this.store.dispatch(getCurrentUserAction());

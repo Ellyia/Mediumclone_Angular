@@ -1,10 +1,10 @@
-@if (isLoading$ | async) {
+@if (isLoading()) {
 <loading></loading>
 } @if (initialValues$ | async; as initialValues) {
 <article-form
   [initialValues]="initialValues"
-  [isSubmitting]="isSubmitting$ | async"
-  [errors]="validationErrors$ | async"
+  [isSubmitting]="isSubmitting()"
+  [errors]="validationErrors()"
   (articleSubmit)="onSubmit($event)"
 ></article-form>
 }

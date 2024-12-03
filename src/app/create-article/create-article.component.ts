@@ -1,5 +1,6 @@
 import {Component, inject, Signal} from '@angular/core';
 import {Store} from '@ngrx/store';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 import {AppStateInterface} from '../shared/types/appState.interface';
 import {createArticleAction} from './store/actions/create-article.action';
@@ -10,7 +11,6 @@ import {
   isSubmittingSelector,
   validationErrorsSelector,
 } from './store/selectors';
-import {toSignal} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'create-article',

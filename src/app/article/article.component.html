@@ -19,7 +19,7 @@
           </span>
         </div>
 
-        @if (isAuthor$ | async) {
+        @if (isAuthor()) {
         <a
           [routerLink]="['/articles', article.slug, 'edit']"
           class="btn btn-outline-secondary btn-sm"
