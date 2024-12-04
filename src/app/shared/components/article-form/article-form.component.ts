@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import {Component, inject, input, OnInit, output} from '@angular/core';
 
 import {ArticleInputInterface} from '../../types/articleInput.interface';
 import {BackendErrorsInterface} from '../../types/backendErrors.interface';
@@ -26,12 +19,14 @@ import {BackendErrorMsgsComponent} from '../backend-error-msgs/backend-error-msg
   styleUrl: './article-form.component.scss',
 })
 export class ArticleFormComponent implements OnInit {
-  @Input('initialValues') initialValuesProps!: ArticleInputInterface;
-  @Input('isSubmitting') isSubmittingProps!: boolean | null;
-  @Input('errors') backendErrorsProps!: BackendErrorsInterface | null;
+  initialValues = input.required<ArticleInputInterface>();
+  isSubmitting = input.required<boolean | null>();
+  errors = input.required<BackendErrorsInterface | null>();
 
-  @Output('articleSubmit') articleSubmitEvent =
-    new EventEmitter<ArticleInputInterface>();
+  articleSubmit = output<ArticleInputInterface>();
+
+  // @Output('articleSubmit') articleSubmitEvent =
+  //   new EventEmitter<ArticleInputInterface>();
 
   form!: FormGroup;
 
@@ -44,25 +39,25 @@ export class ArticleFormComponent implements OnInit {
   initializeForm(): void {
     this.form = this.fb.group({
       title: new FormControl<string>(
-        this.initialValuesProps.title,
+        this.initialValues().title,
         Validators.required
       ),
       description: new FormControl<string>(
-        this.initialValuesProps.description,
+        this.initialValues().description,
         Validators.required
       ),
       body: new FormControl<string>(
-        this.initialValuesProps.body,
+        this.initialValues().body,
         Validators.required
       ),
       tagList: new FormControl<string[] | string>(
-        this.initialValuesProps.tagList.join(' ')
+        this.initialValues().tagList.join(' ')
       ),
     });
   }
 
   onSubmit(): void {
-    this.articleSubmitEvent.emit({
+    this.articleSubmit.emit({
       title: this.form.value.title,
       description: this.form.value.description,
       body: this.form.value.body,

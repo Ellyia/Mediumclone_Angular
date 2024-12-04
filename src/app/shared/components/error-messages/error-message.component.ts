@@ -1,11 +1,12 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 
 @Component({
   selector: 'error-message',
   standalone: true,
   imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './error-message.component.html',
 })
 export class ErrorMessageComponent {
-  @Input('errorMessage') messageProps: string = 'Something went wrong...';
+  errorMessage = input<string>('Something went wrong...');
 }

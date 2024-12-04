@@ -33,10 +33,6 @@ export class EditArticleComponent {
 
   initialValues$!: Observable<ArticleInputInterface>; // can be null, but...
 
-  // isLoading$!: Observable<boolean>;
-  // isSubmitting$!: Observable<boolean | null>;
-  // validationErrors$!: Observable<BackendErrorsInterface | null>;
-
   isLoading: Signal<boolean> = toSignal(this.store.select(isLoadingSelector), {
     requireSync: true,
   });
@@ -60,10 +56,6 @@ export class EditArticleComponent {
 
   initialiseValues(): void {
     this.slug = this.route.snapshot.paramMap.get('slug') || '';
-
-    // this.isSubmitting$ = this.store.select(isSubmittingSelector);
-    // this.validationErrors$ = this.store.select(validationErrorsSelector);
-    // this.isLoading$ = this.store.select(isLoadingSelector);
 
     this.initialValues$ = this.store.pipe(
       select(articleSelector),

@@ -1,4 +1,9 @@
-import {Component, inject, OnInit, Signal} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Signal,
+} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {Store} from '@ngrx/store';
@@ -15,11 +20,12 @@ import {
 @Component({
   selector: 'top-bar',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, RouterModule],
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.scss',
 })
-export class TopBarComponent implements OnInit {
+export class TopBarComponent {
   private readonly store = inject(Store<AppStateInterface>);
 
   isLoggedIn: Signal<boolean | null> = toSignal(
@@ -34,12 +40,4 @@ export class TopBarComponent implements OnInit {
     this.store.select(currentUserSelector),
     {requireSync: true}
   );
-
-  // constructor(@Inject(Store) private store: Store<AppStateInterface>) {}
-
-  ngOnInit(): void {
-    // this.isLoggedIn$ = this.store.select(isLoggedInSelector);
-    // this.isAnonymous$ = this.store.select(isAnonymousSelector);
-    // this.currentUser$ = this.store.select(currentUserSelector);
-  }
 }

@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {select, Store} from '@ngrx/store';
-// import {CommonModule} from '@angular/common';
 
 import {BackendErrorsInterface} from '../../../shared/types/backendErrors.interface';
 import {
@@ -33,9 +32,6 @@ export class LoginComponent implements OnInit {
 
   formLog!: FormGroup;
 
-  // isSubmitting$!: Observable<boolean>;
-  // backendErrors$!: Observable<BackendErrorsInterface | null>;
-
   isSubmitting: Signal<boolean> = toSignal(
     this.store.pipe(select(isSubmittingSelector)),
     {requireSync: true}
@@ -46,20 +42,9 @@ export class LoginComponent implements OnInit {
     {requireSync: true}
   );
 
-  // constructor(
-  //   @Inject(Store) private store: Store<AppStateInterface>,
-  //   private fb: FormBuilder
-  // ) {}
-
   ngOnInit(): void {
     this.initializeLogForm();
-    // this.initializeValues();
   }
-
-  // initializeValues(): void {
-  //   this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector));
-  //   this.backendErrors$ = this.store.pipe(select(validationErrorsSelector));
-  // }
 
   initializeLogForm(): void {
     this.formLog = this.fb.group({

@@ -2,7 +2,7 @@
   <div class="container page">
     <div class="row">
       <div class="col-md-10 offset-md-1 col-xs-12">
-        @if (backendErrorsProps) {
+        @if (errors(); as backendErrorsProps) {
         <backend-error-msgs
           [backendErrors]="backendErrorsProps"
         ></backend-error-msgs>
@@ -58,7 +58,7 @@
               <button
                 class="btn btn-lg btn-primary pull-xs-right"
                 type="submit"
-                [disabled]="form.invalid || isSubmittingProps"
+                [disabled]="form.invalid || isSubmitting()"
               >
                 Publish article
               </button>

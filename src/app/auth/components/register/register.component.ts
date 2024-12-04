@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import {select, Store} from '@ngrx/store';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 import {registerAction} from '../../store/actions/register.action';
 import {
@@ -17,7 +18,6 @@ import {AppStateInterface} from '../../../shared/types/appState.interface';
 import {RegisterRequestInterface} from '../../types/registerRequest.interface';
 import {BackendErrorsInterface} from '../../../shared/types/backendErrors.interface';
 import {BackendErrorMsgsComponent} from '../../../shared/components/backend-error-msgs/backend-error-msgs.component';
-import {toSignal} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-register',
@@ -33,9 +33,6 @@ export class RegisterComponent implements OnInit {
 
   formReg!: FormGroup;
 
-  // isSubmitting$!: Observable<boolean>;
-  // backendErrors$!: Observable<BackendErrorsInterface | null>;
-
   readonly isSubmitting: Signal<boolean> = toSignal(
     this.store.pipe(select(isSubmittingSelector)),
     {requireSync: true}
@@ -45,20 +42,10 @@ export class RegisterComponent implements OnInit {
     this.store.pipe(select(validationErrorsSelector)),
     {requireSync: true}
   );
-  // constructor(
-  //   private fb: FormBuilder,
-  //   @Inject(Store) private store: Store<AppStateInterface>
-  // ) {}
 
   ngOnInit(): void {
     this.initializeForm();
-    // this.initializeValues();
   }
-
-  // initializeValues(): void {
-  //   this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector));
-  //   this.backendErrors$ = this.store.pipe(select(validationErrorsSelector));
-  // }
 
   initializeForm(): void {
     this.formReg = this.fb.group({

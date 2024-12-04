@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 
 import {PopularTagType} from '../../types/popularTag.type';
 
@@ -6,10 +6,10 @@ import {PopularTagType} from '../../types/popularTag.type';
   selector: 'tag-list',
   standalone: true,
   imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './tag-list.component.html',
   styleUrl: './tag-list.component.scss',
 })
 export class TagListComponent {
-  // @Input('tags') tagsProps!: PopularTagType[];
   tags = input.required<PopularTagType[]>();
 }

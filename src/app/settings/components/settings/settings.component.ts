@@ -7,8 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {select, Store} from '@ngrx/store';
-import {AsyncPipe} from '@angular/common';
-import {filter, Observable, Subject, takeUntil} from 'rxjs';
+import {filter, Subject, takeUntil} from 'rxjs';
 
 import {AppStateInterface} from '../../../shared/types/appState.interface';
 import {CurrentUserInterface} from '../../../shared/types/currentUser.interface';
@@ -51,7 +50,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
   form!: FormGroup;
 
   ngOnInit(): void {
-    // this.initializeValues();
     this.initializeListeners();
   }
 
@@ -68,11 +66,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.initializeForm();
       });
   }
-
-  // initializeValues(): void {
-  // this.isSubmitting$ = this.store.select(isSubmittingSelector);
-  // this.backendErrors$ = this.store.select(validationErrorsSelector);
-  // }
 
   initializeForm(): void {
     this.form = this.fb.group({

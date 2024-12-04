@@ -1,11 +1,7 @@
 <ul class="pagination">
-  @for (page of pages; track page) {
-  <li class="page-item" [ngClass]="{active: currentPageProps === page}">
-    <a
-      [routerLink]="baseUrlProps"
-      class="page-link"
-      [queryParams]="{page: page}"
-    >
+  @for (page of pages(); track page) {
+  <li class="page-item" [ngClass]="{active: currentPage() === page}">
+    <a [routerLink]="url()" class="page-link" [queryParams]="{page: page}">
       {{ page }}
     </a>
   </li>

@@ -1,7 +1,6 @@
 import {Component, computed, inject, OnInit, Signal} from '@angular/core';
 import {ActivatedRoute, RouterModule} from '@angular/router';
 import {Store} from '@ngrx/store';
-// import {combineLatest, map, Observable} from 'rxjs';
 import {toSignal} from '@angular/core/rxjs-interop';
 
 import {getArticleAction} from './store/actions/get-article.action';
@@ -37,11 +36,7 @@ export class ArticleComponent implements OnInit {
   private readonly store = inject(Store<AppStateInterface>);
   private readonly route = inject(ActivatedRoute);
 
-  // isLoading$!: Observable<boolean>;
-  // error$!: Observable<string | null>;
-  // article$!: Observable<ArticleInterface | null>;
   slug!: string;
-  // isAuthor$!: Observable<boolean>;
 
   readonly article: Signal<ArticleInterface | null> = toSignal(
     this.store.select(articleDataSelector),
@@ -57,8 +52,6 @@ export class ArticleComponent implements OnInit {
     // if (!this.article() || !this.currentUser()) return false;
     return this.article()?.author.username === this.currentUser()?.username;
   });
-
-  // article$: Observable<ArticleInterface | null> = toObservable(this.article);
 
   readonly isLoading: Signal<boolean> = toSignal(
     this.store.select(isLoadingArticleSelector),
@@ -81,25 +74,6 @@ export class ArticleComponent implements OnInit {
 
   initialiseValues(): void {
     this.slug = this.route.snapshot.paramMap.get('slug') ?? '';
-    // this.isLoading$ = this.store.select(isLoadingArticleSelector);
-    // this.error$ = this.store.select(errorArticleSelector);
-    // this.article$ = this.store.select(articleDataSelector);
-
-    // this.isAuthor$ = combineLatest([
-    //   // this.store.select(articleDataSelector),
-    //   this.article$,
-    //   this.store.select(currentUserSelector),
-    // ]).pipe(
-    //   map(
-    //     ([article, user]: [
-    //       ArticleInterface | null,
-    //       CurrentUserInterface | null
-    //     ]) => {
-    //       if (!article || !user) return false;
-    //       return article.author.username === user.username;
-    //     }
-    //   )
-    // );
   }
 
   deleteArticle(): void {

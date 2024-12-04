@@ -39,14 +39,6 @@ export class CreateArticleComponent {
     {requireSync: true}
   );
 
-  // isSubmitting$!: Observable<boolean | null>;
-  // validationErrors$!: Observable<BackendErrorsInterface | null>;
-
-  // ngOnInit(): void {
-  //   this.isSubmitting$ = this.store.select(isSubmittingSelector);
-  //   this.validationErrors$ = this.store.select(validationErrorsSelector);
-  // }
-
   onSubmit($event: ArticleInputInterface): void {
     this.store.dispatch(createArticleAction({articleInput: $event}));
   }

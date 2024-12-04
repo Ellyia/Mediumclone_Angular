@@ -1,5 +1,5 @@
 <ul class="error-messages">
-  @for (msg of errorMsgs; track msg) {
+  @for (msg of errorMsgs(); track msg) {
   <li>
     {{ msg }}
   </li>
