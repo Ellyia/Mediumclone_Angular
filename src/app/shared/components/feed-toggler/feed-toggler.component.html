@@ -1,6 +1,6 @@
 <div class="feed-toggle">
   <ul class="nav outline-active nav-pills">
-    @if (isLoggedIn$ | async) {
+    @if (isLoggedIn()) {
     <li class="nav-item">
       <a [routerLink]="['/feed']" class="nav-link" routerLinkActive="active">
         Your feed
@@ -17,15 +17,16 @@
         Global Feed
       </a>
     </li>
-    @if (tagNameProps) {
+    @if (tagName()) {
     <li class="nav-item">
       <a
-        [routerLink]="['/tags', tagNameProps]"
+        [routerLink]="['/tags', tagName()]"
         class="nav-link"
         routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
       >
         <i class="ion-pound"></i>
-        {{ tagNameProps }}
+        {{ tagName() }}
       </a>
     </li>
     }

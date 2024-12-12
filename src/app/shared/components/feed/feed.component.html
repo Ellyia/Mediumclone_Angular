@@ -36,7 +36,7 @@
 <pagination
   [articlesCount]="feed?.articlesCount || 0"
   [limit]="limitOfArticles"
-  [url]="baseUrl"
-  [currentPage]="currentParamsPage"
+  [url]="baseUrl()"
+  [currentPage]="currentParamsPage()"
 ></pagination>
 }

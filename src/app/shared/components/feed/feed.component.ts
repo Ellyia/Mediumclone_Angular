@@ -1,19 +1,19 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  computed,
+  DestroyRef,
+  effect,
   inject,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
+  input,
+  signal,
   Signal,
-  SimpleChanges,
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Params, Router, RouterModule} from '@angular/router';
 import {Store} from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
 import queryString from 'query-string';
-import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 import {AppStateInterface} from '../../types/appState.interface';
 import {getFeedAction} from './store/actions/get-feed.action';
@@ -33,6 +33,7 @@ import {AddToFavoritesComponent} from '../add-to-favorites/add-to-favorites.comp
 @Component({
   selector: 'feed',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     RouterModule,
@@ -45,11 +46,15 @@ import {AddToFavoritesComponent} from '../add-to-favorites/add-to-favorites.comp
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.scss',
 })
-export class FeedComponent implements OnInit, OnChanges {
-  @Input('apiUrl') apiUrlProps!: string;
+export class FeedComponent {
+  apiUrl = input.required<string>();
   private readonly store = inject(Store<AppStateInterface>);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+
+  destroyRef = inject(DestroyRef);
+
+  baseUrl = signal(this.router.url.split('?')[0]);
 
   isLoading: Signal<boolean> = toSignal(
     this.store.select(isLoadingFeedSelector),
@@ -64,55 +69,91 @@ export class FeedComponent implements OnInit, OnChanges {
     {requireSync: true}
   );
 
-  baseUrl!: string;
+  // baseUrl!: string;
   limitOfArticles = environment.limitOfArticles;
-  currentParamsPage!: number;
+  // currentParamsPage!: number;
 
-  ngOnInit(): void {
-    this.initialiseValue();
-    this.initializeListeners();
-  }
+  queryParams = toSignal(this.route.queryParams);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes['apiUrlProps'].currentValue);
+  currentParamsPage = computed(() => {
+    return Number(this.queryParams()?.['page'] || '1');
+  });
 
-    const isApiUrlChanged =
-      !changes['apiUrlProps'].firstChange &&
-      changes['apiUrlProps'].currentValue !==
-        changes['apiUrlProps'].previousValue;
+  offset = computed(() => {
+    return (
+      this.currentParamsPage() * this.limitOfArticles - this.limitOfArticles
+    );
+  });
 
-    if (isApiUrlChanged) this.fetchFeed(); // without this angular won't upload info for new tag
-  }
-
-  initializeListeners(): void {
-    this.route.queryParams.subscribe((params: Params) => {
-      this.currentParamsPage = Number(params['page'] || '1');
-      this.fetchFeed();
-    });
-  }
-
-  fetchFeed(): void {
-    const offset =
-      this.currentParamsPage * this.limitOfArticles - this.limitOfArticles;
-
-    const parsedUrl = queryString.parseUrl(this.apiUrlProps);
+  apiUrlWithParams = computed(() => {
+    const parsedUrl = queryString.parseUrl(this.apiUrl());
 
     const stringifiedParams = queryString.stringify({
       limit: this.limitOfArticles,
-      offset,
+      offset: this.offset(),
       ...parsedUrl.query,
     });
-    const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`;
 
-    console.log('feed:', apiUrlWithParams, 'urlProps:', this.apiUrlProps);
+    return `${parsedUrl.url}?${stringifiedParams}`;
+  });
 
-    this.store.dispatch(getFeedAction({url: apiUrlWithParams}));
+  constructor() {
+    effect(
+      () => {
+        this.store.dispatch(getFeedAction({url: this.apiUrlWithParams()}));
+      },
+      {
+        allowSignalWrites: true,
+      }
+    );
   }
 
-  initialiseValue(): void {
-    // this.isLoading$ = this.store.select(isLoadingFeedSelector);
-    // this.error$ = this.store.select(errorFeedSelector);
-    // this.feed$ = this.store.select(feedDataSelector);
-    this.baseUrl = this.router.url.split('?')[0];
-  }
+  // constructor() {
+  //   effect(() => {
+  //     this.currentParamsPage = Number(this.queryParams()['page'] || '1');
+  //     this.fetchFeed();
+  //   });
+  // }
+
+  // ngOnInit(): void {
+  //   this.initialiseValue();
+  //   // this.initializeListeners();
+  // }
+
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   console.log('changes:', changes['apiUrl'].currentValue);
+
+  //   const isApiUrlChanged =
+  //     !changes['apiUrl'].firstChange &&
+  //     changes['apiUrl'].currentValue !== changes['apiUrl'].previousValue;
+
+  //   if (isApiUrlChanged) this.fetchFeed(); // without this angular won't upload info for new tag
+  // }
+
+  // initializeListeners(): void {
+  //   this.route.queryParams
+  //     .pipe(takeUntilDestroyed(this.destroyRef))
+  //     .subscribe((params: Params) => {
+  //       this.currentParamsPage = Number(params['page'] || '1');
+  //       this.fetchFeed();
+  //     });
+  // }
+
+  // fetchFeed(): void {
+  // const offset =
+  //   this.currentParamsPage * this.limitOfArticles - this.limitOfArticles;
+  // const parsedUrl = queryString.parseUrl(this.apiUrl());
+  // const stringifiedParams = queryString.stringify({
+  //   limit: this.limitOfArticles,
+  //   offset,
+  //   ...parsedUrl.query,
+  // });
+  // const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`;
+  // console.log('feed:', this.apiUrlWithParams(), 'urlProps:', this.apiUrl());
+  // this.store.dispatch(getFeedAction({url: apiUrlWithParams}));
+  // }
+
+  // initialiseValue(): void {
+  //   this.baseUrl = this.router.url.split('?')[0];
+  // }
 }

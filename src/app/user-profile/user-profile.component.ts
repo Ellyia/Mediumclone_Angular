@@ -2,20 +2,21 @@ import {
   Component,
   computed,
   DestroyRef,
+  effect,
   inject,
-  OnInit,
+  // OnInit,
   Signal,
 } from '@angular/core';
 import {Store} from '@ngrx/store';
 import {
   ActivatedRoute,
-  Params,
+  // Params,
   Router,
   RouterLink,
   RouterModule,
 } from '@angular/router';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+// import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 import {AppStateInterface} from '../shared/types/appState.interface';
 import {BackendErrorsInterface} from '../shared/types/backendErrors.interface';
@@ -45,7 +46,7 @@ import {FeedComponent} from '../shared/components/feed/feed.component';
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent {
   private readonly store = inject(Store<AppStateInterface>);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -76,57 +77,57 @@ export class UserProfileComponent implements OnInit {
   apiUrl!: string;
   slug!: string;
 
-  ngOnInit(): void {
-    this.initialiseValues();
-    this.initializeListeners();
-  }
+  // ngOnInit(): void {
+  // this.initialiseValues();
+  // this.initializeListeners();
+  // }
 
-  initializeListeners(): void {
-    this.route.params
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((params: Params) => {
-        this.slug = params['slug'];
+  thisParams = toSignal(this.route.params);
 
-        this.getApiUrl();
+  thisSlug = computed(() => {
+    return this.thisParams()?.['slug'];
+  });
+
+  constructor() {
+    effect(
+      () => {
+        const isFavorites = this.router.url.includes('favorited');
+
+        this.apiUrl = isFavorites
+          ? `/articles?favorited=${this.thisSlug()}`
+          : `/articles?author=${this.thisSlug()}`;
 
         this.getUserProfile();
-      });
+      },
+      {allowSignalWrites: true}
+    );
   }
 
-  initialiseValues(): void {
-    // this.isLoading$ = this.store.select(isLoadingProfileselector);
-    // this.userProfile$ = this.store.select(userProfileSelector);
-    // this.errors$ = this.store.select(errorsProfileSelector);
+  // initializeListeners(): void {
+  //   this.route.params
+  //     .pipe(takeUntilDestroyed(this.destroyRef))
+  //     .subscribe((params: Params) => {
+  //       this.slug = params['slug'];
 
-    this.slug = this.route.snapshot.paramMap.get('slug') || '';
+  //       this.getApiUrl();
 
-    // const isFavorites = this.router.url.includes('favorited');
-    // this.apiUrl = isFavorites
-    //   ? `/articles?favorited=${this.slug}`
-    //   : `/articles?author=${this.slug}`; // why it changes?
+  //       this.getUserProfile();
+  //     });
+  // }
 
-    // this.isCurrentUserProfile$ = combineLatest([
-    //   this.store.pipe(select(currentUserSelector), filter(Boolean)),
-    //   this.store.pipe(select(userProfileSelector), filter(Boolean)),
-    // ]).pipe(
-    //   map(
-    //     ([currentUser, userProfile]: [
-    //       CurrentUserInterface,
-    //       ProfileInterface
-    //     ]) => currentUser.username === userProfile.username
-    //   )
-    // );
-  }
+  // initialiseValues(): void {
+  //   this.slug = this.route.snapshot.paramMap.get('slug') || '';
+  // }
 
-  getApiUrl(): void {
-    const isFavorites = this.router.url.includes('favorited');
+  // getApiUrl(): void {
+  //   const isFavorites = this.router.url.includes('favorited');
 
-    this.apiUrl = isFavorites
-      ? `/articles?favorited=${this.slug}`
-      : `/articles?author=${this.slug}`; // now it changes?
-  }
+  //   this.apiUrl = isFavorites
+  //     ? `/articles?favorited=${this.slug}`
+  //     : `/articles?author=${this.slug}`; // now it changes?
+  // }
 
   getUserProfile(): void {
-    this.store.dispatch(getProfileAction({slug: this.slug}));
+    this.store.dispatch(getProfileAction({slug: this.thisSlug()}));
   }
 }

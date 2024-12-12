@@ -1,8 +1,13 @@
-import {Component, inject, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  Signal,
+} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {RouterModule} from '@angular/router';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 import {AppStateInterface} from '../../types/appState.interface';
 import {isLoggedInSelector} from '../../../auth/store/selectors';
@@ -10,22 +15,18 @@ import {isLoggedInSelector} from '../../../auth/store/selectors';
 @Component({
   selector: 'feed-toggler',
   standalone: true,
-  imports: [AsyncPipe, RouterModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterModule],
   templateUrl: './feed-toggler.component.html',
   styleUrl: './feed-toggler.component.scss',
 })
-export class FeedTogglerComponent implements OnInit {
-  @Input('tagName') tagNameProps!: string | null;
-
-  isLoggedIn$!: Observable<boolean | null>;
+export class FeedTogglerComponent {
+  tagName = input<string | null>();
 
   private readonly store = inject(Store<AppStateInterface>);
 
-  ngOnInit(): void {
-    this.initializeValues();
-  }
-
-  initializeValues(): void {
-    this.isLoggedIn$ = this.store.select(isLoggedInSelector);
-  }
+  isLoggedIn: Signal<boolean | null> = toSignal(
+    this.store.select(isLoggedInSelector),
+    {requireSync: true}
+  );
 }

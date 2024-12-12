@@ -20,9 +20,8 @@ export class BackendErrorMsgsComponent {
 
   errorMsgs = computed<string[] | null>(() => {
     if (this.backendErrors())
-      return Object.entries(this.backendErrors() as object).map((m) =>
-        m[1].join(', ')
-      );
+      return Object.entries(<object>this.backendErrors()) // as object
+        .map((m) => m[1].join(', '));
     else return null;
   });
 }

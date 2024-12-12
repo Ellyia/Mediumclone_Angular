@@ -1,4 +1,4 @@
-import {Component, inject, input, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {NgClass} from '@angular/common';
 import {Store} from '@ngrx/store';
 
@@ -14,32 +14,38 @@ import {addToFavoriteArticleAction} from './store/actions/add-to-favorite-articl
 })
 export class AddToFavoritesComponent {
   slug = input.required<string>();
-  @Input('isInFavorite') isInFavoriteProps!: boolean;
-  @Input('countOfFavorites') countOfFavoritesProps!: number;
+  isInFavorite = input.required<boolean>();
+  countOfFavorites = input.required<number>();
 
   private readonly store = inject(Store<AppStateInterface>);
 
-  countOfFavorites!: number;
+  // isInFavorited = toSignal(this.store.select(isAddedToFavoriteSelector));
+  // countOfFavorited = toSignal(this.store.select(countOfFavoritesSelector));
+
+  countOfFavoritess!: number;
   isFavorited!: boolean;
 
   ngOnInit(): void {
-    this.countOfFavorites = this.countOfFavoritesProps;
-    this.isFavorited = this.isInFavoriteProps;
+    this.countOfFavoritess = this.countOfFavorites();
+    this.isFavorited = this.isInFavorite();
   }
 
   switchFavorit(): void {
     this.store.dispatch(
       addToFavoriteArticleAction({
-        isFavorited: this.isFavorited,
+        isFavorited: !this.isFavorited,
         slug: this.slug(),
       })
     );
 
+    // this.countOfFavoritess = this.countOfFavorited() as number;
+    // this.isFavorited = this.isInFavorited() as boolean;
+
     if (this.isFavorited) {
-      this.countOfFavorites = this.countOfFavorites - 1; // computed(this.countOfFavorites() - 1)
+      this.countOfFavoritess = this.countOfFavoritess - 1;
     } else {
-      this.countOfFavorites = this.countOfFavorites + 1; // computed(this.countOfFavorites() - 1)
+      this.countOfFavoritess = this.countOfFavoritess + 1;
     }
-    this.isFavorited = !this.isFavorited; // computed(this.countOfFavorites() - 1)
+    this.isFavorited = !this.isFavorited;
   }
 }

@@ -1,7 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {ActionTypes} from './actionTypes';
 import {GetFeedResponseInterface} from '../../types/getFeedResponse.interface';
-import {BackendErrorsInterface} from '../../../../types/backendErrors.interface';
 
 export const getFeedAction = createAction(
   ActionTypes.GET_FEED,
