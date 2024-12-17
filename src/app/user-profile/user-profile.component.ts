@@ -4,19 +4,16 @@ import {
   DestroyRef,
   effect,
   inject,
-  // OnInit,
   Signal,
 } from '@angular/core';
 import {Store} from '@ngrx/store';
 import {
   ActivatedRoute,
-  // Params,
   Router,
   RouterLink,
   RouterModule,
 } from '@angular/router';
 import {toSignal} from '@angular/core/rxjs-interop';
-// import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 import {AppStateInterface} from '../shared/types/appState.interface';
 import {BackendErrorsInterface} from '../shared/types/backendErrors.interface';
@@ -77,11 +74,6 @@ export class UserProfileComponent {
   apiUrl!: string;
   slug!: string;
 
-  // ngOnInit(): void {
-  // this.initialiseValues();
-  // this.initializeListeners();
-  // }
-
   thisParams = toSignal(this.route.params);
 
   thisSlug = computed(() => {
@@ -102,30 +94,6 @@ export class UserProfileComponent {
       {allowSignalWrites: true}
     );
   }
-
-  // initializeListeners(): void {
-  //   this.route.params
-  //     .pipe(takeUntilDestroyed(this.destroyRef))
-  //     .subscribe((params: Params) => {
-  //       this.slug = params['slug'];
-
-  //       this.getApiUrl();
-
-  //       this.getUserProfile();
-  //     });
-  // }
-
-  // initialiseValues(): void {
-  //   this.slug = this.route.snapshot.paramMap.get('slug') || '';
-  // }
-
-  // getApiUrl(): void {
-  //   const isFavorites = this.router.url.includes('favorited');
-
-  //   this.apiUrl = isFavorites
-  //     ? `/articles?favorited=${this.slug}`
-  //     : `/articles?author=${this.slug}`; // now it changes?
-  // }
 
   getUserProfile(): void {
     this.store.dispatch(getProfileAction({slug: this.thisSlug()}));

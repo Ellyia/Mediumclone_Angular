@@ -1,7 +1,4 @@
 import {Component, inject, input, OnInit, output} from '@angular/core';
-
-import {ArticleInputInterface} from '../../types/articleInput.interface';
-import {BackendErrorsInterface} from '../../types/backendErrors.interface';
 import {
   FormBuilder,
   FormControl,
@@ -9,6 +6,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+
+import {ArticleInputInterface} from '../../types/articleInput.interface';
+import {BackendErrorsInterface} from '../../types/backendErrors.interface';
 import {BackendErrorMsgsComponent} from '../backend-error-msgs/backend-error-msgs.component';
 
 @Component({
@@ -24,9 +24,6 @@ export class ArticleFormComponent implements OnInit {
   errors = input.required<BackendErrorsInterface | null>();
 
   articleSubmit = output<ArticleInputInterface>();
-
-  // @Output('articleSubmit') articleSubmitEvent =
-  //   new EventEmitter<ArticleInputInterface>();
 
   form!: FormGroup;
 

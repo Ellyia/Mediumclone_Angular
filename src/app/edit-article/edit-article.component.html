@@ -1,6 +1,6 @@
 @if (isLoading()) {
 <loading></loading>
-} @if (initialValues$ | async; as initialValues) {
+} @if (initialValues$(); as initialValues) {
 <article-form
   [initialValues]="initialValues"
   [isSubmitting]="isSubmitting()"

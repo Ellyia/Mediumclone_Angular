@@ -49,7 +49,7 @@ export class ArticleComponent implements OnInit {
   );
 
   readonly isAuthor: Signal<boolean> = computed(() => {
-    // if (!this.article() || !this.currentUser()) return false;
+    if (!this.article() || !this.currentUser()) return false;
     return this.article()?.author.username === this.currentUser()?.username;
   });
 

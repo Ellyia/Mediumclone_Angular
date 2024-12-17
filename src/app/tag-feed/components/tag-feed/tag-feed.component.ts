@@ -1,5 +1,4 @@
-import {Component, computed, inject, input, OnInit} from '@angular/core';
-// import {ActivatedRoute, Params} from '@angular/router';
+import {Component, computed, input} from '@angular/core';
 
 import {FeedComponent} from '../../../shared/components/feed/feed.component';
 import {BannerComponent} from '../../../shared/components/banner/banner.component';
@@ -19,20 +18,9 @@ import {PopularTagsComponent} from '../../../shared/components/popular-tags/popu
   styleUrl: './tag-feed.component.scss',
 })
 export class TagFeedComponent {
-  // apiUrl!: string;
-  // tagName!: string | null;
-
-  // private readonly route = inject(ActivatedRoute);
   readonly slug = input.required<string>();
 
   readonly apiUrl = computed(() => {
     return `/articles?tag=${this.slug()}`;
   });
-
-  // ngOnInit() {
-  //   this.route.params.subscribe((params: Params) => {
-  //     this.tagName = params['slug'];
-  //     this.apiUrl = `/articles?tag=${this.tagName}`;
-  //   });
-  // }
 }

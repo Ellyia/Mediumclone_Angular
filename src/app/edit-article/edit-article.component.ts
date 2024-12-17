@@ -1,7 +1,6 @@
-import {Component, inject, Signal} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {filter, map, Observable} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import {Component, computed, inject, Signal} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {ActivatedRoute} from '@angular/router';
 import {toSignal} from '@angular/core/rxjs-interop';
 
 import {AppStateInterface} from '../shared/types/appState.interface';
@@ -14,8 +13,6 @@ import {
   isSubmittingSelector,
   validationErrorsSelector,
 } from './store/selectors';
-import {ArticleInterface} from '../shared/types/article.interfase';
-import {ActivatedRoute} from '@angular/router';
 import {getArticleAction} from './store/actions/get-article.action';
 import {LoadingComponent} from '../shared/components/loadind/loading.component';
 import {updateArticleAction} from './store/actions/edit-article.action';
@@ -23,7 +20,7 @@ import {updateArticleAction} from './store/actions/edit-article.action';
 @Component({
   selector: 'edit-article',
   standalone: true,
-  imports: [ArticleFormComponent, AsyncPipe, LoadingComponent],
+  imports: [ArticleFormComponent, LoadingComponent],
   templateUrl: './edit-article.component.html',
   styleUrl: './edit-article.component.scss',
 })
@@ -31,7 +28,22 @@ export class EditArticleComponent {
   private readonly store = inject(Store<AppStateInterface>);
   private readonly route = inject(ActivatedRoute);
 
-  initialValues$!: Observable<ArticleInputInterface>; // can be null, but...
+  initialValues: Signal<ArticleInputInterface | null> = toSignal(
+    this.store.select(articleSelector),
+    {requireSync: true}
+  );
+
+  initialValues$ = computed(() => {
+    if (!!this.initialValues()) {
+      return {
+        title: this.initialValues()!.title,
+        description: this.initialValues()!.description,
+        body: this.initialValues()!.body,
+        tagList: this.initialValues()!.tagList,
+      };
+    }
+    return;
+  });
 
   isLoading: Signal<boolean> = toSignal(this.store.select(isLoadingSelector), {
     requireSync: true,
@@ -56,19 +68,6 @@ export class EditArticleComponent {
 
   initialiseValues(): void {
     this.slug = this.route.snapshot.paramMap.get('slug') || '';
-
-    this.initialValues$ = this.store.pipe(
-      select(articleSelector),
-      filter(Boolean), // can be null, but... I will wait for result with filter, when res will be not null/undefined
-      map((article: ArticleInterface) => {
-        return {
-          title: article.title,
-          description: article.description,
-          body: article.body,
-          tagList: article.tagList,
-        };
-      })
-    );
   }
 
   fetchData(): void {

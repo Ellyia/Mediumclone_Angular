@@ -19,9 +19,6 @@ export class AddToFavoritesComponent {
 
   private readonly store = inject(Store<AppStateInterface>);
 
-  // isInFavorited = toSignal(this.store.select(isAddedToFavoriteSelector));
-  // countOfFavorited = toSignal(this.store.select(countOfFavoritesSelector));
-
   countOfFavoritess!: number;
   isFavorited!: boolean;
 
@@ -37,9 +34,6 @@ export class AddToFavoritesComponent {
         slug: this.slug(),
       })
     );
-
-    // this.countOfFavoritess = this.countOfFavorited() as number;
-    // this.isFavorited = this.isInFavorited() as boolean;
 
     if (this.isFavorited) {
       this.countOfFavoritess = this.countOfFavoritess - 1;

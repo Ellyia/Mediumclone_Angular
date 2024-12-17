@@ -43,7 +43,7 @@ export class CreateArticleEffects {
         ofType(createArticleSuccessAction),
         tap(({article}) => {
           this.router.navigate(['/articles', article.slug]);
-        }) // we don't return action in tap, that's why we need 'dispatch: false'
+        })
       ),
     {dispatch: false}
   );

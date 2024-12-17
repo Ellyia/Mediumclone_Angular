@@ -24,8 +24,7 @@ export class AuthService {
 
     return this.httpClient
       .post<AuthResponseInterface>(url, data)
-      .pipe(map(this.getUser)); // or
-    // .pipe(map(({user}: AuthResponseInterface) => user)); // (response: AuthResponseInterface) => response.user)
+      .pipe(map(this.getUser));
   }
 
   login(data: LoginRequestInterface): Observable<CurrentUserInterface> {

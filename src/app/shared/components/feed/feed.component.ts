@@ -10,7 +10,7 @@ import {
   Signal,
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ActivatedRoute, Params, Router, RouterModule} from '@angular/router';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {Store} from '@ngrx/store';
 import queryString from 'query-string';
 import {toSignal} from '@angular/core/rxjs-interop';
@@ -69,9 +69,7 @@ export class FeedComponent {
     {requireSync: true}
   );
 
-  // baseUrl!: string;
   limitOfArticles = environment.limitOfArticles;
-  // currentParamsPage!: number;
 
   queryParams = toSignal(this.route.queryParams);
 
@@ -107,53 +105,4 @@ export class FeedComponent {
       }
     );
   }
-
-  // constructor() {
-  //   effect(() => {
-  //     this.currentParamsPage = Number(this.queryParams()['page'] || '1');
-  //     this.fetchFeed();
-  //   });
-  // }
-
-  // ngOnInit(): void {
-  //   this.initialiseValue();
-  //   // this.initializeListeners();
-  // }
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   console.log('changes:', changes['apiUrl'].currentValue);
-
-  //   const isApiUrlChanged =
-  //     !changes['apiUrl'].firstChange &&
-  //     changes['apiUrl'].currentValue !== changes['apiUrl'].previousValue;
-
-  //   if (isApiUrlChanged) this.fetchFeed(); // without this angular won't upload info for new tag
-  // }
-
-  // initializeListeners(): void {
-  //   this.route.queryParams
-  //     .pipe(takeUntilDestroyed(this.destroyRef))
-  //     .subscribe((params: Params) => {
-  //       this.currentParamsPage = Number(params['page'] || '1');
-  //       this.fetchFeed();
-  //     });
-  // }
-
-  // fetchFeed(): void {
-  // const offset =
-  //   this.currentParamsPage * this.limitOfArticles - this.limitOfArticles;
-  // const parsedUrl = queryString.parseUrl(this.apiUrl());
-  // const stringifiedParams = queryString.stringify({
-  //   limit: this.limitOfArticles,
-  //   offset,
-  //   ...parsedUrl.query,
-  // });
-  // const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`;
-  // console.log('feed:', this.apiUrlWithParams(), 'urlProps:', this.apiUrl());
-  // this.store.dispatch(getFeedAction({url: apiUrlWithParams}));
-  // }
-
-  // initialiseValue(): void {
-  //   this.baseUrl = this.router.url.split('?')[0];
-  // }
 }
