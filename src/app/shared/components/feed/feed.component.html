@@ -26,8 +26,11 @@
   </div>
 
   <a [routerLink]="['/articles', article.slug]" class="preview-link">
-    <h1>{{ article.title }}</h1>
-    <p>{{ article.description }}</p>
+    <h1 [innerHTML]="article.title | highlightStr : searchStrProp()"></h1>
+    <!-- <h1>{{ article.title | highlightStr : searchStrProp() || '' }}</h1> -->
+    <p colorizeSerched [stringProp]="searchStrProp()">
+      {{ article.description }}
+    </p>
     <tag-list [tags]="article.tagList"></tag-list>
   </a>
 </div>

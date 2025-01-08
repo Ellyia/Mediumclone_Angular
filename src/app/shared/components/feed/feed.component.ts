@@ -29,6 +29,8 @@ import {environment} from '../../../../environments/environment';
 import {PaginationComponent} from '../pagination/pagination.component';
 import {TagListComponent} from '../tag-list/tag-list.component';
 import {AddToFavoritesComponent} from '../add-to-favorites/add-to-favorites.component';
+import {HighlightStrPipe} from '../../pipes/highlight-serched.pipe';
+import {ColorizeSerchedDirective} from '../../directives/colorize-serched.directive';
 
 @Component({
   selector: 'feed',
@@ -42,12 +44,16 @@ import {AddToFavoritesComponent} from '../add-to-favorites/add-to-favorites.comp
     PaginationComponent,
     TagListComponent,
     AddToFavoritesComponent,
+    HighlightStrPipe,
+    ColorizeSerchedDirective,
   ],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.scss',
 })
 export class FeedComponent {
   apiUrl = input.required<string>();
+  searchStrProp = input.required<string>();
+
   private readonly store = inject(Store<AppStateInterface>);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
